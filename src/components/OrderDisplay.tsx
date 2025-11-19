@@ -11,7 +11,7 @@ const OrderDisplay = () => {
   const [orders, setOrders] = useState<Order[]>(
     Array.from({ length: 50 }, (_, i) => ({
       id: String(i + 1),
-      orderNumber: String(Math.floor(Math.random() * 900 + 100)),
+      orderNumber: String(Math.floor(Math.random() * 9000 + 1000)),
     }))
   );
 
@@ -28,7 +28,7 @@ const OrderDisplay = () => {
   // Simulate new orders coming in
   useEffect(() => {
     const interval = setInterval(() => {
-      const newOrderNumber = Math.floor(Math.random() * 900 + 100).toString();
+      const newOrderNumber = Math.floor(Math.random() * 9000 + 1000).toString();
       const newOrder = {
         id: Date.now().toString(),
         orderNumber: newOrderNumber,
@@ -49,7 +49,7 @@ const OrderDisplay = () => {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-success/5" />
       
       {/* Header */}
-      <header className="relative z-10 border-b border-border/50 bg-card/50 backdrop-blur-md">
+      <header className="relative z-10 border-b border-gray-200 bg-white">
         <div className="container mx-auto flex items-center justify-between px-6 py-3">
           <div className="flex items-center space-x-3">
             <img src={armtekLogo} alt="Armtek" className="h-8 w-auto" />
@@ -57,19 +57,19 @@ const OrderDisplay = () => {
           
           <div className="flex items-center space-x-6">
             <div className="text-right">
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              <p className="text-xs font-medium uppercase tracking-wider text-gray-600">
                 Готовые заказы
               </p>
-              <p className="text-lg font-bold text-success">{orders.length}</p>
+              <p className="text-lg font-bold text-green-600">{orders.length}</p>
             </div>
             
-            <div className="h-8 w-px bg-border" />
+            <div className="h-8 w-px bg-gray-300" />
             
             <div className="text-right">
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              <p className="text-xs font-medium uppercase tracking-wider text-gray-600">
                 Время
               </p>
-              <p className="text-lg font-bold text-foreground">
+              <p className="text-lg font-bold text-gray-900">
                 {currentTime.toLocaleTimeString("ru-RU", {
                   hour: "2-digit",
                   minute: "2-digit",
