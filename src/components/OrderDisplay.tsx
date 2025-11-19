@@ -8,12 +8,12 @@ interface Order {
 }
 
 const OrderDisplay = () => {
-  const [orders, setOrders] = useState<Order[]>([
-    { id: "1", orderNumber: "142" },
-    { id: "2", orderNumber: "157" },
-    { id: "3", orderNumber: "163" },
-    { id: "4", orderNumber: "178" },
-  ]);
+  const [orders, setOrders] = useState<Order[]>(
+    Array.from({ length: 50 }, (_, i) => ({
+      id: String(i + 1),
+      orderNumber: String(Math.floor(Math.random() * 900 + 100)),
+    }))
+  );
 
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -36,7 +36,7 @@ const OrderDisplay = () => {
 
       setOrders((prev) => {
         const updated = [newOrder, ...prev];
-        return updated.slice(0, 6); // Keep max 6 orders
+        return updated.slice(0, 50); // Keep max 50 orders
       });
     }, 8000);
 
@@ -50,26 +50,26 @@ const OrderDisplay = () => {
       
       {/* Header */}
       <header className="relative z-10 border-b border-border/50 bg-card/50 backdrop-blur-md">
-        <div className="container mx-auto flex items-center justify-between px-8 py-6">
-          <div className="flex items-center space-x-4">
-            <img src={armtekLogo} alt="Armtek" className="h-12 w-auto" />
+        <div className="container mx-auto flex items-center justify-between px-6 py-3">
+          <div className="flex items-center space-x-3">
+            <img src={armtekLogo} alt="Armtek" className="h-8 w-auto" />
           </div>
           
-          <div className="flex items-center space-x-8">
+          <div className="flex items-center space-x-6">
             <div className="text-right">
-              <p className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
+              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 Готовые заказы
               </p>
-              <p className="text-2xl font-bold text-success">{orders.length}</p>
+              <p className="text-lg font-bold text-success">{orders.length}</p>
             </div>
             
-            <div className="h-12 w-px bg-border" />
+            <div className="h-8 w-px bg-border" />
             
             <div className="text-right">
-              <p className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
+              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 Время
               </p>
-              <p className="text-2xl font-bold text-foreground">
+              <p className="text-lg font-bold text-foreground">
                 {currentTime.toLocaleTimeString("ru-RU", {
                   hour: "2-digit",
                   minute: "2-digit",
@@ -81,7 +81,7 @@ const OrderDisplay = () => {
       </header>
 
       {/* Main content */}
-      <main className="relative z-10 container mx-auto px-8 py-12">
+      <main className="relative z-10 container mx-auto px-6 py-6">
         {orders.length === 0 ? (
           <div className="flex min-h-[60vh] items-center justify-center">
             <div className="text-center">
@@ -92,12 +92,12 @@ const OrderDisplay = () => {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
             {orders.map((order, index) => (
               <OrderCard
                 key={order.id}
                 orderNumber={order.orderNumber}
-                delay={index * 100}
+                delay={index * 10}
               />
             ))}
           </div>
