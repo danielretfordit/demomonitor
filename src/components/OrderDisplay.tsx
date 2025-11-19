@@ -49,28 +49,29 @@ const OrderDisplay = () => {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-success/5" />
       
       {/* Header */}
-      <header className="relative z-10 border-b border-border/50 bg-card/80 backdrop-blur-md">
-        <div className="container mx-auto flex items-center justify-between px-6 py-3">
-          <div className="flex items-center space-x-4">
-            <img src={armtekLogo} alt="Armtek" className="h-8 w-auto" />
-            <h1 className="text-2xl font-bold text-foreground">Готовые заказы</h1>
+      <header className="relative z-10 bg-[#2d3339] border-b border-gray-700">
+        <div className="container mx-auto flex items-center justify-between px-8 py-4">
+          <div className="flex items-center space-x-6">
+            <img src={armtekLogo} alt="Armtek" className="h-10 w-auto" />
+            <div className="h-8 w-px bg-gray-600" />
+            <h1 className="text-2xl font-bold text-white">Готовые заказы</h1>
           </div>
           
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-8">
             <div className="text-right">
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              <p className="text-xs font-medium uppercase tracking-wider text-gray-400">
                 Количество
               </p>
-              <p className="text-lg font-bold text-success">{orders.length}</p>
+              <p className="text-2xl font-bold text-primary">{orders.length}</p>
             </div>
             
-            <div className="h-8 w-px bg-border" />
+            <div className="h-10 w-px bg-gray-600" />
             
             <div className="text-right">
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              <p className="text-xs font-medium uppercase tracking-wider text-gray-400">
                 Время
               </p>
-              <p className="text-lg font-bold text-foreground">
+              <p className="text-2xl font-bold text-white">
                 {currentTime.toLocaleTimeString("ru-RU", {
                   hour: "2-digit",
                   minute: "2-digit",
