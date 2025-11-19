@@ -49,27 +49,28 @@ const OrderDisplay = () => {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-success/5" />
       
       {/* Header */}
-      <header className="relative z-10 border-b border-gray-200 bg-white">
+      <header className="relative z-10 border-b border-border/50 bg-card/80 backdrop-blur-md">
         <div className="container mx-auto flex items-center justify-between px-6 py-3">
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-4">
             <img src={armtekLogo} alt="Armtek" className="h-8 w-auto" />
+            <h1 className="text-2xl font-bold text-foreground">Готовые заказы</h1>
           </div>
           
           <div className="flex items-center space-x-6">
             <div className="text-right">
-              <p className="text-xs font-medium uppercase tracking-wider text-gray-600">
-                Готовые заказы
+              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                Количество
               </p>
-              <p className="text-lg font-bold text-green-600">{orders.length}</p>
+              <p className="text-lg font-bold text-success">{orders.length}</p>
             </div>
             
-            <div className="h-8 w-px bg-gray-300" />
+            <div className="h-8 w-px bg-border" />
             
             <div className="text-right">
-              <p className="text-xs font-medium uppercase tracking-wider text-gray-600">
+              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 Время
               </p>
-              <p className="text-lg font-bold text-gray-900">
+              <p className="text-lg font-bold text-foreground">
                 {currentTime.toLocaleTimeString("ru-RU", {
                   hour: "2-digit",
                   minute: "2-digit",
