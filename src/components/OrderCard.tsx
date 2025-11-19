@@ -19,7 +19,7 @@ const OrderCard = ({ orderNumber, delay = 0 }: OrderCardProps) => {
   return (
     <div
       className={cn(
-        "glass-card order-pulse relative overflow-hidden rounded-2xl p-8 transition-all duration-500",
+        "glass-card order-pulse relative overflow-hidden rounded-xl p-4 transition-all duration-500",
         isVisible ? "slide-up opacity-100" : "opacity-0"
       )}
     >
@@ -27,28 +27,12 @@ const OrderCard = ({ orderNumber, delay = 0 }: OrderCardProps) => {
       <div className="absolute inset-0 bg-gradient-to-br from-success/20 to-transparent opacity-50" />
       
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center space-y-3">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-success/20 ring-2 ring-success">
-          <svg
-            className="h-8 w-8 text-success"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={3}
-              d="M5 13l4 4L19 7"
-            />
-          </svg>
-        </div>
-        
+      <div className="relative z-10 flex flex-col items-center justify-center">
         <div className="text-center">
-          <p className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
-            Заказ готов
+          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            Заказ
           </p>
-          <p className="mt-1 text-6xl font-bold tracking-tight text-foreground">
+          <p className="mt-1 text-4xl font-bold tracking-tight text-foreground">
             {orderNumber}
           </p>
         </div>
