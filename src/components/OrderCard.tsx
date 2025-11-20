@@ -3,11 +3,40 @@ import { cn } from "@/lib/utils";
 
 interface OrderCardProps {
   orderNumber: string;
+  status: 'ready' | 'problem' | 'collecting' | 'cashier';
   delay?: number;
 }
 
-const OrderCard = ({ orderNumber, delay = 0 }: OrderCardProps) => {
+const statusConfig = {
+  ready: {
+    bgColor: 'bg-green-500/20',
+    borderColor: 'border-green-500',
+    accentColor: 'bg-green-500',
+    label: 'Готов',
+  },
+  problem: {
+    bgColor: 'bg-red-500/20',
+    borderColor: 'border-red-500',
+    accentColor: 'bg-red-500',
+    label: 'Менеджер',
+  },
+  collecting: {
+    bgColor: 'bg-yellow-500/20',
+    borderColor: 'border-yellow-500',
+    accentColor: 'bg-yellow-500',
+    label: 'Собирается',
+  },
+  cashier: {
+    bgColor: 'bg-blue-500/20',
+    borderColor: 'border-blue-500',
+    accentColor: 'bg-blue-500',
+    label: 'Касса',
+  },
+};
+
+const OrderCard = ({ orderNumber, status, delay = 0 }: OrderCardProps) => {
   const [isVisible, setIsVisible] = useState(false);
+  const config = statusConfig[status];
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -19,27 +48,26 @@ const OrderCard = ({ orderNumber, delay = 0 }: OrderCardProps) => {
   return (
     <div
       className={cn(
-        "glass-card order-pulse relative overflow-hidden rounded-xl p-4 transition-all duration-500",
+        "relative overflow-hidden rounded-xl p-4 transition-all duration-500 border-2",
+        config.bgColor,
+        config.borderColor,
         isVisible ? "slide-up opacity-100" : "opacity-0"
       )}
     >
-      {/* Glow effect */}
-      <div className="absolute inset-0 bg-gradient-to-br from-success/20 to-transparent opacity-50" />
-      
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center">
         <div className="text-center">
-          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-            Заказ
+          <p className={cn("text-xs font-medium uppercase tracking-wider mb-1", config.accentColor.replace('bg-', 'text-'))}>
+            {config.label}
           </p>
-          <p className="mt-1 text-4xl font-bold tracking-tight text-foreground">
+          <p className="mt-1 text-4xl font-bold tracking-tight text-white">
             {orderNumber}
           </p>
         </div>
       </div>
 
       {/* Bottom accent */}
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-success to-transparent" />
+      <div className={cn("absolute bottom-0 left-0 right-0 h-1", config.accentColor)} />
     </div>
   );
 };
