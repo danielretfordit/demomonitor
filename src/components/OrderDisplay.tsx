@@ -5,14 +5,19 @@ import armtekLogo from "@/assets/armtek-logo.png";
 interface Order {
   id: string;
   orderNumber: string;
+  status: 'ready' | 'problem' | 'collecting' | 'cashier';
 }
 
 const OrderDisplay = () => {
   const [orders, setOrders] = useState<Order[]>(
-    Array.from({ length: 50 }, (_, i) => ({
-      id: String(i + 1),
-      orderNumber: String(Math.floor(Math.random() * 9000 + 1000)),
-    }))
+    Array.from({ length: 50 }, (_, i) => {
+      const statuses: ('ready' | 'problem' | 'collecting' | 'cashier')[] = ['ready', 'problem', 'collecting', 'cashier'];
+      return {
+        id: String(i + 1),
+        orderNumber: String(Math.floor(Math.random() * 9000 + 1000)),
+        status: statuses[Math.floor(Math.random() * statuses.length)],
+      };
+    })
   );
 
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -29,9 +34,11 @@ const OrderDisplay = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       const newOrderNumber = Math.floor(Math.random() * 9000 + 1000).toString();
+      const statuses: ('ready' | 'problem' | 'collecting' | 'cashier')[] = ['ready', 'problem', 'collecting', 'cashier'];
       const newOrder = {
         id: Date.now().toString(),
         orderNumber: newOrderNumber,
+        status: statuses[Math.floor(Math.random() * statuses.length)],
       };
 
       setOrders((prev) => {
@@ -44,12 +51,9 @@ const OrderDisplay = () => {
   }, []);
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-background to-background/95">
-      {/* Animated background gradient */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-success/5" />
-      
+    <div className="relative min-h-screen w-full overflow-hidden bg-[#172027]">
       {/* Header */}
-      <header className="relative z-10 bg-[#2d3339] border-b border-gray-700">
+      <header className="relative z-10 bg-[#30393f] border-b border-gray-700">
         <div className="container mx-auto flex items-center justify-between px-8 py-4">
           <div className="flex items-center space-x-6">
             <img src={armtekLogo} alt="Armtek" className="h-10 w-auto" />
@@ -99,6 +103,7 @@ const OrderDisplay = () => {
               <OrderCard
                 key={order.id}
                 orderNumber={order.orderNumber}
+                status={order.status}
                 delay={index * 10}
               />
             ))}
