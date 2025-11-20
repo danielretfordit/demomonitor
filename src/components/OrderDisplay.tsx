@@ -1,6 +1,15 @@
 import { useEffect, useState } from "react";
 import OrderCard from "./OrderCard";
 import armtekLogo from "@/assets/armtek-logo.png";
+import { Settings } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 interface Order {
   id: string;
@@ -21,6 +30,16 @@ const OrderDisplay = () => {
   );
 
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [selectedStore, setSelectedStore] = useState("Магазин №1");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const stores = [
+    "Магазин №1",
+    "Магазин №2",
+    "Магазин №3",
+    "Магазин №4",
+    "Магазин №5",
+  ];
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -82,6 +101,36 @@ const OrderDisplay = () => {
                 })}
               </p>
             </div>
+
+            <div className="h-10 w-px bg-gray-600" />
+
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild>
+                <button className="rounded-lg bg-gray-700 p-2 text-white transition-colors hover:bg-gray-600">
+                  <Settings className="h-6 w-6" />
+                </button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Выбор магазина</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-2 py-4">
+                  {stores.map((store) => (
+                    <Button
+                      key={store}
+                      variant={selectedStore === store ? "default" : "outline"}
+                      className="w-full justify-start"
+                      onClick={() => {
+                        setSelectedStore(store);
+                        setIsDialogOpen(false);
+                      }}
+                    >
+                      {store}
+                    </Button>
+                  ))}
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </header>
@@ -112,17 +161,40 @@ const OrderDisplay = () => {
       </main>
 
       {/* Footer status bar */}
-      <footer className="fixed bottom-0 left-0 right-0 z-10 border-t border-border/50 bg-card/50 backdrop-blur-md">
-        <div className="container mx-auto px-8 py-4">
+      <footer className="fixed bottom-0 left-0 right-0 z-10 border-t border-gray-700 bg-[#30393f]">
+        <div className="container mx-auto px-8 py-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <div className="h-3 w-3 animate-pulse rounded-full bg-success" />
-              <span className="text-sm font-medium text-muted-foreground">
-                Система активна
-              </span>
+            <div className="flex items-center space-x-6">
+              <div className="flex items-center space-x-2">
+                <div className="h-3 w-3 animate-pulse rounded-full bg-green-500" />
+                <span className="text-sm font-medium text-gray-300">
+                  Система активна
+                </span>
+              </div>
+              
+              <div className="h-4 w-px bg-gray-600" />
+              
+              <div className="flex items-center space-x-4 text-sm">
+                <div className="flex items-center space-x-2">
+                  <div className="h-3 w-3 rounded-sm bg-green-500" />
+                  <span className="text-gray-300">Готов</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="h-3 w-3 rounded-sm bg-red-500" />
+                  <span className="text-gray-300">Проблема</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="h-3 w-3 rounded-sm bg-yellow-500" />
+                  <span className="text-gray-300">Собирается</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="h-3 w-3 rounded-sm bg-blue-500" />
+                  <span className="text-gray-300">На кассу</span>
+                </div>
+              </div>
             </div>
             
-            <div className="text-sm text-muted-foreground">
+            <div className="text-sm text-gray-400">
               {currentTime.toLocaleDateString("ru-RU", {
                 day: "2-digit",
                 month: "long",
