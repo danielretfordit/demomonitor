@@ -14,13 +14,13 @@ import { Button } from "@/components/ui/button";
 interface Order {
   id: string;
   orderNumber: string;
-  status: 'waiting' | 'collecting' | 'ready' | 'problem' | 'cashier' | 'return';
+  status: 'ready' | 'problem' | 'collecting' | 'cashier';
 }
 
 const OrderDisplay = () => {
   const [orders, setOrders] = useState<Order[]>(
     Array.from({ length: 50 }, (_, i) => {
-      const statuses: ('waiting' | 'collecting' | 'ready' | 'problem' | 'cashier' | 'return')[] = ['waiting', 'collecting', 'ready', 'problem', 'cashier', 'return'];
+      const statuses: ('ready' | 'problem' | 'collecting' | 'cashier')[] = ['ready', 'problem', 'collecting', 'cashier'];
       return {
         id: String(i + 1),
         orderNumber: String(Math.floor(Math.random() * 9000 + 1000)),
@@ -53,7 +53,7 @@ const OrderDisplay = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       const newOrderNumber = Math.floor(Math.random() * 9000 + 1000).toString();
-      const statuses: ('waiting' | 'collecting' | 'ready' | 'problem' | 'cashier' | 'return')[] = ['waiting', 'collecting', 'ready', 'problem', 'cashier', 'return'];
+      const statuses: ('ready' | 'problem' | 'collecting' | 'cashier')[] = ['ready', 'problem', 'collecting', 'cashier'];
       const newOrder = {
         id: Date.now().toString(),
         orderNumber: newOrderNumber,
@@ -77,7 +77,7 @@ const OrderDisplay = () => {
           <div className="flex items-center space-x-6">
             <img src={armtekLogo} alt="Armtek" className="h-10 w-auto" />
             <div className="h-8 w-px bg-gray-600" />
-            <h1 className="text-2xl font-bold text-white">Статус отправления</h1>
+            <h1 className="text-2xl font-bold text-white">Готовые заказы</h1>
           </div>
           
           <div className="flex items-center space-x-8">
@@ -147,7 +147,7 @@ const OrderDisplay = () => {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-10">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
             {orders.map((order, index) => (
               <OrderCard
                 key={order.id}
@@ -176,28 +176,20 @@ const OrderDisplay = () => {
               
               <div className="flex items-center space-x-4 text-sm">
                 <div className="flex items-center space-x-2">
-                  <div className="h-3 w-3 rounded-sm bg-white border border-gray-400" />
-                  <span className="text-gray-300">Ожидает отбора</span>
+                  <div className="h-3 w-3 rounded-sm bg-green-500" />
+                  <span className="text-gray-300">Готов</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="h-3 w-3 rounded-sm bg-red-500" />
+                  <span className="text-gray-300">Проблема</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className="h-3 w-3 rounded-sm bg-yellow-500" />
                   <span className="text-gray-300">Собирается</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <div className="h-3 w-3 rounded-sm bg-green-500" />
-                  <span className="text-gray-300">На выдачу</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="h-3 w-3 rounded-sm bg-red-500" />
-                  <span className="text-gray-300">К менеджеру</span>
-                </div>
-                <div className="flex items-center space-x-2">
                   <div className="h-3 w-3 rounded-sm bg-blue-500" />
-                  <span className="text-gray-300">К кассе</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="h-3 w-3 rounded-sm bg-orange-500" />
-                  <span className="text-gray-300">Обр. реализация</span>
+                  <span className="text-gray-300">На кассу</span>
                 </div>
               </div>
             </div>

@@ -3,52 +3,34 @@ import { cn } from "@/lib/utils";
 
 interface OrderCardProps {
   orderNumber: string;
-  status: 'waiting' | 'collecting' | 'ready' | 'problem' | 'cashier' | 'return';
+  status: 'ready' | 'problem' | 'collecting' | 'cashier';
   delay?: number;
 }
 
 const statusConfig = {
-  waiting: {
-    bgColor: 'bg-gray-500/20',
-    borderColor: 'border-gray-400',
-    accentColor: 'bg-gray-500',
-    textColor: 'text-white',
-    label: 'Ожидает отбора',
-  },
-  collecting: {
-    bgColor: 'bg-yellow-500/20',
-    borderColor: 'border-yellow-500',
-    accentColor: 'bg-yellow-500',
-    textColor: 'text-white',
-    label: 'Собирается',
-  },
   ready: {
     bgColor: 'bg-green-500/20',
     borderColor: 'border-green-500',
     accentColor: 'bg-green-500',
-    textColor: 'text-white',
-    label: 'Подойдите на выдачу товара',
+    label: 'Готов',
   },
   problem: {
     bgColor: 'bg-red-500/20',
     borderColor: 'border-red-500',
     accentColor: 'bg-red-500',
-    textColor: 'text-white',
-    label: 'Обратитесь к менеджеру',
+    label: 'Менеджер',
+  },
+  collecting: {
+    bgColor: 'bg-yellow-500/20',
+    borderColor: 'border-yellow-500',
+    accentColor: 'bg-yellow-500',
+    label: 'Собирается',
   },
   cashier: {
     bgColor: 'bg-blue-500/20',
     borderColor: 'border-blue-500',
     accentColor: 'bg-blue-500',
-    textColor: 'text-white',
-    label: 'Подойдите к кассе',
-  },
-  return: {
-    bgColor: 'bg-orange-500/20',
-    borderColor: 'border-orange-500',
-    accentColor: 'bg-orange-500',
-    textColor: 'text-white',
-    label: '↩ Обр. реализация',
+    label: 'Касса',
   },
 };
 
@@ -66,7 +48,7 @@ const OrderCard = ({ orderNumber, status, delay = 0 }: OrderCardProps) => {
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-xl p-3 transition-all duration-500 border-2",
+        "relative overflow-hidden rounded-xl p-4 transition-all duration-500 border-2",
         config.bgColor,
         config.borderColor,
         isVisible ? "slide-up opacity-100" : "opacity-0"
@@ -75,7 +57,7 @@ const OrderCard = ({ orderNumber, status, delay = 0 }: OrderCardProps) => {
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center">
         <div className="text-center">
-          <p className="text-xs font-medium uppercase tracking-wider mb-1 text-white/80">
+          <p className={cn("text-xs font-medium uppercase tracking-wider mb-1", config.accentColor.replace('bg-', 'text-'))}>
             {config.label}
           </p>
           <p className="mt-1 text-4xl font-bold tracking-tight text-white">
