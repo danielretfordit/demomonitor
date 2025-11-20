@@ -9,44 +9,44 @@ interface OrderCardProps {
 
 const statusConfig = {
   waiting: {
-    bgColor: 'bg-white/95',
-    borderColor: 'border-gray-300',
-    accentColor: 'bg-gray-400',
-    textColor: 'text-gray-900',
+    bgColor: 'bg-gray-500/20',
+    borderColor: 'border-gray-400',
+    accentColor: 'bg-gray-500',
+    textColor: 'text-white',
     label: 'Ожидает отбора',
   },
   collecting: {
-    bgColor: 'bg-yellow-400/95',
+    bgColor: 'bg-yellow-500/20',
     borderColor: 'border-yellow-500',
-    accentColor: 'bg-yellow-600',
-    textColor: 'text-gray-900',
+    accentColor: 'bg-yellow-500',
+    textColor: 'text-white',
     label: 'Собирается',
   },
   ready: {
-    bgColor: 'bg-green-500/95',
-    borderColor: 'border-green-600',
-    accentColor: 'bg-green-700',
+    bgColor: 'bg-green-500/20',
+    borderColor: 'border-green-500',
+    accentColor: 'bg-green-500',
     textColor: 'text-white',
     label: 'Подойдите на выдачу товара',
   },
   problem: {
-    bgColor: 'bg-red-500/95',
-    borderColor: 'border-red-600',
-    accentColor: 'bg-red-700',
+    bgColor: 'bg-red-500/20',
+    borderColor: 'border-red-500',
+    accentColor: 'bg-red-500',
     textColor: 'text-white',
     label: 'Обратитесь к менеджеру',
   },
   cashier: {
-    bgColor: 'bg-blue-500/95',
-    borderColor: 'border-blue-600',
-    accentColor: 'bg-blue-700',
+    bgColor: 'bg-blue-500/20',
+    borderColor: 'border-blue-500',
+    accentColor: 'bg-blue-500',
     textColor: 'text-white',
     label: 'Подойдите к кассе',
   },
   return: {
-    bgColor: 'bg-orange-500/95',
-    borderColor: 'border-orange-600',
-    accentColor: 'bg-orange-700',
+    bgColor: 'bg-orange-500/20',
+    borderColor: 'border-orange-500',
+    accentColor: 'bg-orange-500',
     textColor: 'text-white',
     label: '↩ Обр. реализация',
   },
@@ -75,10 +75,10 @@ const OrderCard = ({ orderNumber, status, delay = 0 }: OrderCardProps) => {
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center">
         <div className="text-center">
-          <p className={cn("text-[10px] font-semibold uppercase tracking-wide mb-1 leading-tight", config.textColor)}>
+          <p className="text-xs font-medium uppercase tracking-wider mb-1 text-white/80">
             {config.label}
           </p>
-          <p className={cn("mt-1 text-3xl font-bold tracking-tight", config.textColor)}>
+          <p className="mt-1 text-4xl font-bold tracking-tight text-white">
             {orderNumber}
           </p>
         </div>
