@@ -11,6 +11,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 interface Order {
   id: string;
@@ -33,6 +41,8 @@ const OrderDisplay = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [selectedStore, setSelectedStore] = useState("Магазин №1");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ordersPerPage = 16;
 
   const stores = [
     "Магазин №1",
@@ -89,7 +99,7 @@ const OrderDisplay = () => {
           <div className="flex items-center space-x-6">
             <img src={armtekLogo} alt="Armtek" className="h-10 w-auto" />
             <div className="h-8 w-px bg-gray-300" />
-            <h1 className="text-2xl font-bold text-gray-800">Готовые заказы</h1>
+            <h1 className="text-2xl font-bold text-gray-800">Статус самовывоза</h1>
           </div>
           
           <div className="flex items-center space-x-8">
@@ -159,16 +169,54 @@ const OrderDisplay = () => {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
-            {orders.map((order, index) => (
-              <OrderCard
-                key={order.id}
-                orderNumber={order.orderNumber}
-                status={order.status}
-                delay={index * 10}
-              />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 mb-6">
+              {orders
+                .slice((currentPage - 1) * ordersPerPage, currentPage * ordersPerPage)
+                .map((order, index) => (
+                  <OrderCard
+                    key={order.id}
+                    orderNumber={order.orderNumber}
+                    status={order.status}
+                    delay={index * 10}
+                  />
+                ))}
+            </div>
+            
+            {orders.length > ordersPerPage && (
+              <div className="flex justify-center">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious
+                        onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                        className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                      />
+                    </PaginationItem>
+                    
+                    {Array.from({ length: Math.ceil(orders.length / ordersPerPage) }, (_, i) => i + 1).map((page) => (
+                      <PaginationItem key={page}>
+                        <PaginationLink
+                          onClick={() => setCurrentPage(page)}
+                          isActive={currentPage === page}
+                          className="cursor-pointer"
+                        >
+                          {page}
+                        </PaginationLink>
+                      </PaginationItem>
+                    ))}
+                    
+                    <PaginationItem>
+                      <PaginationNext
+                        onClick={() => setCurrentPage((prev) => Math.min(Math.ceil(orders.length / ordersPerPage), prev + 1))}
+                        className={currentPage === Math.ceil(orders.length / ordersPerPage) ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              </div>
+            )}
+          </>
         )}
       </main>
 

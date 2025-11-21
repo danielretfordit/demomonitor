@@ -56,11 +56,14 @@ const OrderCard = ({ orderNumber, status, delay = 0 }: OrderCardProps) => {
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-xl p-4 transition-all duration-500 border-2 shadow-md hover:shadow-lg",
+        "relative overflow-hidden rounded-xl p-4 transition-all duration-500 border-2 shadow-lg hover:shadow-xl",
         config.bgColor,
         config.borderColor,
         isVisible ? "slide-up opacity-100" : "opacity-0"
       )}
+      style={{
+        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1)'
+      }}
     >
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center">
