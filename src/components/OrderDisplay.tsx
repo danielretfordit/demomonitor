@@ -194,18 +194,6 @@ const OrderDisplay = () => {
                       />
                     </PaginationItem>
                     
-                    {Array.from({ length: Math.ceil(orders.length / ordersPerPage) }, (_, i) => i + 1).map((page) => (
-                      <PaginationItem key={page}>
-                        <PaginationLink
-                          onClick={() => setCurrentPage(page)}
-                          isActive={currentPage === page}
-                          className="cursor-pointer"
-                        >
-                          {page}
-                        </PaginationLink>
-                      </PaginationItem>
-                    ))}
-                    
                     <PaginationItem>
                       <PaginationNext
                         onClick={() => setCurrentPage((prev) => Math.min(Math.ceil(orders.length / ordersPerPage), prev + 1))}
@@ -254,12 +242,22 @@ const OrderDisplay = () => {
               </div>
             </div>
             
-            <div className="text-sm text-gray-600">
-              {currentTime.toLocaleDateString("ru-RU", {
-                day: "2-digit",
-                month: "long",
-                year: "numeric",
-              })}
+            <div className="flex items-center space-x-6">
+              {orders.length > ordersPerPage && (
+                <>
+                  <div className="text-sm text-gray-600">
+                    Страница {currentPage} из {Math.ceil(orders.length / ordersPerPage)}
+                  </div>
+                  <div className="h-4 w-px bg-gray-300" />
+                </>
+              )}
+              <div className="text-sm text-gray-600">
+                {currentTime.toLocaleDateString("ru-RU", {
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </div>
             </div>
           </div>
         </div>
