@@ -9,27 +9,35 @@ interface OrderCardProps {
 
 const statusConfig = {
   ready: {
-    bgColor: 'bg-green-500/20',
+    bgColor: 'bg-green-50',
     borderColor: 'border-green-500',
     accentColor: 'bg-green-500',
+    textColor: 'text-green-700',
+    numberColor: 'text-green-900',
     label: 'Готов',
   },
   problem: {
-    bgColor: 'bg-red-500/20',
+    bgColor: 'bg-red-50',
     borderColor: 'border-red-500',
     accentColor: 'bg-red-500',
+    textColor: 'text-red-700',
+    numberColor: 'text-red-900',
     label: 'Менеджер',
   },
   collecting: {
-    bgColor: 'bg-yellow-500/20',
+    bgColor: 'bg-yellow-50',
     borderColor: 'border-yellow-500',
     accentColor: 'bg-yellow-500',
+    textColor: 'text-yellow-700',
+    numberColor: 'text-yellow-900',
     label: 'Собирается',
   },
   cashier: {
-    bgColor: 'bg-blue-500/20',
+    bgColor: 'bg-blue-50',
     borderColor: 'border-blue-500',
     accentColor: 'bg-blue-500',
+    textColor: 'text-blue-700',
+    numberColor: 'text-blue-900',
     label: 'Касса',
   },
 };
@@ -48,7 +56,7 @@ const OrderCard = ({ orderNumber, status, delay = 0 }: OrderCardProps) => {
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-xl p-4 transition-all duration-500 border-2",
+        "relative overflow-hidden rounded-xl p-4 transition-all duration-500 border-2 shadow-md hover:shadow-lg",
         config.bgColor,
         config.borderColor,
         isVisible ? "slide-up opacity-100" : "opacity-0"
@@ -57,10 +65,10 @@ const OrderCard = ({ orderNumber, status, delay = 0 }: OrderCardProps) => {
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center">
         <div className="text-center">
-          <p className={cn("text-xs font-medium uppercase tracking-wider mb-1", config.accentColor.replace('bg-', 'text-'))}>
+          <p className={cn("text-xs font-medium uppercase tracking-wider mb-1", config.textColor)}>
             {config.label}
           </p>
-          <p className="mt-1 text-4xl font-bold tracking-tight text-white">
+          <p className={cn("mt-1 text-4xl font-bold tracking-tight", config.numberColor)}>
             {orderNumber}
           </p>
         </div>
