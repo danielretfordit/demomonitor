@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import OrderCard from "./OrderCard";
 import armtekLogo from "@/assets/armtek-logo.png";
+import gradientBg from "@/assets/gradient-bg.png";
 import { Settings } from "lucide-react";
 import {
   Dialog,
@@ -70,31 +71,42 @@ const OrderDisplay = () => {
   }, []);
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-[#172027]">
+    <div className="relative min-h-screen w-full overflow-hidden bg-gray-50">
+      {/* Background gradient */}
+      <div 
+        className="fixed inset-0 z-0 opacity-40"
+        style={{
+          backgroundImage: `url(${gradientBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      />
+      
       {/* Header */}
-      <header className="relative z-10 bg-[#30393f] border-b border-gray-700">
+      <header className="relative z-10 bg-white border-b border-gray-200 shadow-sm">
         <div className="container mx-auto flex items-center justify-between px-8 py-4">
           <div className="flex items-center space-x-6">
             <img src={armtekLogo} alt="Armtek" className="h-10 w-auto" />
-            <div className="h-8 w-px bg-gray-600" />
-            <h1 className="text-2xl font-bold text-white">Готовые заказы</h1>
+            <div className="h-8 w-px bg-gray-300" />
+            <h1 className="text-2xl font-bold text-gray-800">Готовые заказы</h1>
           </div>
           
           <div className="flex items-center space-x-8">
             <div className="text-right">
-              <p className="text-xs font-medium uppercase tracking-wider text-gray-400">
+              <p className="text-xs font-medium uppercase tracking-wider text-gray-500">
                 Количество
               </p>
               <p className="text-2xl font-bold text-primary">{orders.length}</p>
             </div>
             
-            <div className="h-10 w-px bg-gray-600" />
+            <div className="h-10 w-px bg-gray-300" />
             
             <div className="text-right">
-              <p className="text-xs font-medium uppercase tracking-wider text-gray-400">
+              <p className="text-xs font-medium uppercase tracking-wider text-gray-500">
                 Время
               </p>
-              <p className="text-2xl font-bold text-white">
+              <p className="text-2xl font-bold text-gray-800">
                 {currentTime.toLocaleTimeString("ru-RU", {
                   hour: "2-digit",
                   minute: "2-digit",
@@ -102,11 +114,11 @@ const OrderDisplay = () => {
               </p>
             </div>
 
-            <div className="h-10 w-px bg-gray-600" />
+            <div className="h-10 w-px bg-gray-300" />
 
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                <button className="rounded-lg bg-gray-700 p-2 text-white transition-colors hover:bg-gray-600">
+                <button className="rounded-lg bg-gray-200 p-2 text-gray-700 transition-colors hover:bg-gray-300">
                   <Settings className="h-6 w-6" />
                 </button>
               </DialogTrigger>
@@ -161,40 +173,40 @@ const OrderDisplay = () => {
       </main>
 
       {/* Footer status bar */}
-      <footer className="fixed bottom-0 left-0 right-0 z-10 border-t border-gray-700 bg-[#30393f]">
+      <footer className="fixed bottom-0 left-0 right-0 z-10 border-t border-gray-200 bg-white/95 backdrop-blur-sm shadow-lg">
         <div className="container mx-auto px-8 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
               <div className="flex items-center space-x-2">
                 <div className="h-3 w-3 animate-pulse rounded-full bg-green-500" />
-                <span className="text-sm font-medium text-gray-300">
+                <span className="text-sm font-medium text-gray-700">
                   Система активна
                 </span>
               </div>
               
-              <div className="h-4 w-px bg-gray-600" />
+              <div className="h-4 w-px bg-gray-300" />
               
               <div className="flex items-center space-x-4 text-sm">
                 <div className="flex items-center space-x-2">
                   <div className="h-3 w-3 rounded-sm bg-green-500" />
-                  <span className="text-gray-300">Готов</span>
+                  <span className="text-gray-700">Готов</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className="h-3 w-3 rounded-sm bg-red-500" />
-                  <span className="text-gray-300">Проблема</span>
+                  <span className="text-gray-700">Проблема</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className="h-3 w-3 rounded-sm bg-yellow-500" />
-                  <span className="text-gray-300">Собирается</span>
+                  <span className="text-gray-700">Собирается</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className="h-3 w-3 rounded-sm bg-blue-500" />
-                  <span className="text-gray-300">На кассу</span>
+                  <span className="text-gray-700">На кассу</span>
                 </div>
               </div>
             </div>
             
-            <div className="text-sm text-gray-400">
+            <div className="text-sm text-gray-600">
               {currentTime.toLocaleDateString("ru-RU", {
                 day: "2-digit",
                 month: "long",
