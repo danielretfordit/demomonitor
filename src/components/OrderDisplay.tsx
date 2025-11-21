@@ -42,7 +42,7 @@ const OrderDisplay = () => {
   const [selectedStore, setSelectedStore] = useState("Магазин №1");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const ordersPerPage = 16;
+  const ordersPerPage = 48;
 
   const stores = [
     "Магазин №1",
