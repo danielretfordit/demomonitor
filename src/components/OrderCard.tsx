@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 interface OrderCardProps {
   orderNumber: string;
@@ -9,36 +14,40 @@ interface OrderCardProps {
 
 const statusConfig = {
   ready: {
-    bgColor: 'bg-green-50',
+    bgColor: 'bg-green-500/20',
     borderColor: 'border-green-500',
     accentColor: 'bg-green-500',
-    textColor: 'text-green-700',
-    numberColor: 'text-green-900',
-    label: 'Готов',
+    textColor: 'text-green-400',
+    numberColor: 'text-green-100',
+    label: 'Готов к отгрузке',
+    statusLabel: 'Готов',
   },
   problem: {
-    bgColor: 'bg-red-50',
+    bgColor: 'bg-red-500/20',
     borderColor: 'border-red-500',
     accentColor: 'bg-red-500',
-    textColor: 'text-red-700',
-    numberColor: 'text-red-900',
-    label: 'Менеджер',
+    textColor: 'text-red-400',
+    numberColor: 'text-red-100',
+    label: 'Требуется менеджер',
+    statusLabel: 'Менеджер',
   },
   collecting: {
-    bgColor: 'bg-yellow-50',
+    bgColor: 'bg-yellow-500/20',
     borderColor: 'border-yellow-500',
     accentColor: 'bg-yellow-500',
-    textColor: 'text-yellow-700',
-    numberColor: 'text-yellow-900',
-    label: 'Собирается',
+    textColor: 'text-yellow-400',
+    numberColor: 'text-yellow-100',
+    label: 'Заказ собирается',
+    statusLabel: 'Собирается',
   },
   cashier: {
-    bgColor: 'bg-blue-50',
+    bgColor: 'bg-blue-500/20',
     borderColor: 'border-blue-500',
     accentColor: 'bg-blue-500',
-    textColor: 'text-blue-700',
-    numberColor: 'text-blue-900',
-    label: 'Касса',
+    textColor: 'text-blue-400',
+    numberColor: 'text-blue-100',
+    label: 'Направлен на кассу',
+    statusLabel: 'Касса',
   },
 };
 
@@ -53,33 +62,120 @@ const OrderCard = ({ orderNumber, status, delay = 0 }: OrderCardProps) => {
     return () => clearTimeout(timer);
   }, [delay]);
 
-  return (
-    <div
-      className={cn(
-        "relative overflow-hidden rounded-xl p-4 transition-all duration-500 border-2 shadow-lg hover:shadow-xl",
-        config.bgColor,
-        config.borderColor,
-        isVisible ? "slide-up opacity-100" : "opacity-0"
-      )}
-      style={{
-        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1)'
-      }}
-    >
-      {/* Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center">
-        <div className="text-center">
-          <p className={cn("text-xs font-medium uppercase tracking-wider mb-1", config.textColor)}>
-            {config.label}
-          </p>
-          <p className={cn("mt-1 text-4xl font-bold tracking-tight", config.numberColor)}>
-            {orderNumber}
-          </p>
-        </div>
-      </div>
+  // Мокированные данные для попапа
+  const orderDetails = {
+    client: "100539527, Дарья Николаевна Давидович",
+    buyer: "100639527, Дарья Николаевна Давидович",
+    paymentStatus: "оплачено",
+    status: config.label,
+    proforma: "177423640",
+    order: "2004252158",
+    delivery: "8078326095",
+    invoice: "9017433299",
+    documentsIssued: "Нет",
+    openOrders: "Есть",
+    released: "да",
+  };
 
-      {/* Bottom accent */}
-      <div className={cn("absolute bottom-0 left-0 right-0 h-1", config.accentColor)} />
-    </div>
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <button
+          className={cn(
+            "relative overflow-hidden rounded-xl p-4 transition-all duration-500 border-2 shadow-lg hover:shadow-xl cursor-pointer w-full",
+            config.bgColor,
+            config.borderColor,
+            isVisible ? "slide-up opacity-100" : "opacity-0"
+          )}
+          style={{
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2)'
+          }}
+        >
+          {/* Content */}
+          <div className="relative z-10 flex flex-col items-center justify-center">
+            <div className="text-center">
+              <p className={cn("text-xs font-medium uppercase tracking-wider mb-1", config.textColor)}>
+                {config.statusLabel}
+              </p>
+              <p className={cn("mt-1 text-4xl font-bold tracking-tight", config.numberColor)}>
+                {orderNumber}
+              </p>
+            </div>
+          </div>
+
+          {/* Bottom accent */}
+          <div className={cn("absolute bottom-0 left-0 right-0 h-1", config.accentColor)} />
+        </button>
+      </PopoverTrigger>
+      <PopoverContent className="w-80 bg-card border-border">
+        <div className="space-y-3">
+          <h4 className="font-semibold text-sm text-foreground border-b border-border pb-2">
+            Подробная информация
+          </h4>
+          
+          <div className="space-y-2 text-xs">
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Клиент:</span>
+              <span className="text-foreground text-right flex-1 ml-2">{orderDetails.client}</span>
+            </div>
+            
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Покупатель:</span>
+              <span className="text-foreground text-right flex-1 ml-2">{orderDetails.buyer}</span>
+            </div>
+            
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Статус платежа:</span>
+              <span className="text-foreground">{orderDetails.paymentStatus}</span>
+            </div>
+            
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Статус:</span>
+              <span className="text-foreground">{orderDetails.status}</span>
+            </div>
+            
+            <div className="border-t border-border pt-2 mt-2 space-y-2">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Проформа:</span>
+                <span className="text-foreground">{orderDetails.proforma}</span>
+              </div>
+              
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Заказ:</span>
+                <span className="text-foreground">{orderDetails.order}</span>
+              </div>
+              
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Поставка:</span>
+                <span className="text-foreground">{orderDetails.delivery}</span>
+              </div>
+              
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Фактура:</span>
+                <span className="text-foreground">{orderDetails.invoice}</span>
+              </div>
+            </div>
+            
+            <div className="border-t border-border pt-2 mt-2 space-y-2">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Документы выписаны:</span>
+                <span className="text-foreground">{orderDetails.documentsIssued}</span>
+              </div>
+              
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Открытые тр. заказы:</span>
+                <span className="text-foreground">{orderDetails.openOrders}</span>
+              </div>
+              
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Отпуск произведен:</span>
+                <span className="text-foreground">{orderDetails.released}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 };
 
