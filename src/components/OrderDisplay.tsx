@@ -81,10 +81,10 @@ const OrderDisplay = () => {
   }, []);
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-gray-50">
+    <div className="relative min-h-screen w-full overflow-hidden bg-background">
       {/* Background gradient */}
       <div 
-        className="fixed inset-0 z-0 opacity-40"
+        className="fixed inset-0 z-0 opacity-20"
         style={{
           backgroundImage: `url(${gradientBg})`,
           backgroundSize: 'cover',
@@ -94,29 +94,29 @@ const OrderDisplay = () => {
       />
       
       {/* Header */}
-      <header className="relative z-10 bg-white border-b border-gray-200 shadow-sm">
+      <header className="relative z-10 bg-card border-b border-border shadow-sm">
         <div className="container mx-auto flex items-center justify-between px-8 py-4">
           <div className="flex items-center space-x-6">
             <img src={armtekLogo} alt="Armtek" className="h-10 w-auto" />
-            <div className="h-8 w-px bg-gray-300" />
-            <h1 className="text-2xl font-bold text-gray-800">Статус самовывоза</h1>
+            <div className="h-8 w-px bg-border" />
+            <h1 className="text-2xl font-bold text-foreground">Статус самовывоза</h1>
           </div>
           
           <div className="flex items-center space-x-8">
             <div className="text-right">
-              <p className="text-xs font-medium uppercase tracking-wider text-gray-500">
+              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 Количество
               </p>
               <p className="text-2xl font-bold text-primary">{orders.length}</p>
             </div>
             
-            <div className="h-10 w-px bg-gray-300" />
+            <div className="h-10 w-px bg-border" />
             
             <div className="text-right">
-              <p className="text-xs font-medium uppercase tracking-wider text-gray-500">
+              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 Время
               </p>
-              <p className="text-2xl font-bold text-gray-800">
+              <p className="text-2xl font-bold text-foreground">
                 {currentTime.toLocaleTimeString("ru-RU", {
                   hour: "2-digit",
                   minute: "2-digit",
@@ -124,11 +124,11 @@ const OrderDisplay = () => {
               </p>
             </div>
 
-            <div className="h-10 w-px bg-gray-300" />
+            <div className="h-10 w-px bg-border" />
 
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                <button className="rounded-lg bg-gray-200 p-2 text-gray-700 transition-colors hover:bg-gray-300">
+                <button className="rounded-lg bg-secondary p-2 text-secondary-foreground transition-colors hover:bg-secondary/80">
                   <Settings className="h-6 w-6" />
                 </button>
               </DialogTrigger>
@@ -209,35 +209,35 @@ const OrderDisplay = () => {
       </main>
 
       {/* Footer status bar */}
-      <footer className="fixed bottom-0 left-0 right-0 z-10 border-t border-gray-200 bg-white/95 backdrop-blur-sm shadow-lg">
+      <footer className="fixed bottom-0 left-0 right-0 z-10 border-t border-border bg-card/95 backdrop-blur-sm shadow-lg">
         <div className="container mx-auto px-8 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
               <div className="flex items-center space-x-2">
                 <div className="h-3 w-3 animate-pulse rounded-full bg-green-500" />
-                <span className="text-sm font-medium text-gray-700">
+                <span className="text-sm font-medium text-foreground">
                   Система активна
                 </span>
               </div>
               
-              <div className="h-4 w-px bg-gray-300" />
+              <div className="h-4 w-px bg-border" />
               
               <div className="flex items-center space-x-4 text-sm">
                 <div className="flex items-center space-x-2">
                   <div className="h-3 w-3 rounded-sm bg-green-500" />
-                  <span className="text-gray-700">Готов</span>
+                  <span className="text-foreground">Готов</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className="h-3 w-3 rounded-sm bg-red-500" />
-                  <span className="text-gray-700">Проблема</span>
+                  <span className="text-foreground">Проблема</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className="h-3 w-3 rounded-sm bg-yellow-500" />
-                  <span className="text-gray-700">Собирается</span>
+                  <span className="text-foreground">Собирается</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className="h-3 w-3 rounded-sm bg-blue-500" />
-                  <span className="text-gray-700">На кассу</span>
+                  <span className="text-foreground">На кассу</span>
                 </div>
               </div>
             </div>
@@ -245,13 +245,13 @@ const OrderDisplay = () => {
             <div className="flex items-center space-x-6">
               {orders.length > ordersPerPage && (
                 <>
-                  <div className="text-sm text-gray-600">
+                  <div className="text-sm text-muted-foreground">
                     Страница {currentPage} из {Math.ceil(orders.length / ordersPerPage)}
                   </div>
-                  <div className="h-4 w-px bg-gray-300" />
+                  <div className="h-4 w-px bg-border" />
                 </>
               )}
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-muted-foreground">
                 {currentTime.toLocaleDateString("ru-RU", {
                   day: "2-digit",
                   month: "long",
