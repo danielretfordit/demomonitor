@@ -42,7 +42,7 @@ const OrderDisplay = () => {
   const [selectedStore, setSelectedStore] = useState("Магазин №1");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const ordersPerPage = 48;
+  const ordersPerPage = 56;
 
   const stores = [
     "Магазин №1",
@@ -95,7 +95,7 @@ const OrderDisplay = () => {
       
       {/* Header */}
       <header className="relative z-10 border-b border-border shadow-sm" style={{ backgroundColor: '#30393f' }}>
-        <div className="container mx-auto flex items-center justify-between px-8 py-3">
+        <div className="container mx-auto flex items-center justify-between px-8 py-2.5">
           <div className="flex items-center space-x-6">
             <img src={armtekLogo} alt="Armtek" className="h-8 w-auto" />
             <div className="h-8 w-px bg-border" />
@@ -210,33 +210,24 @@ const OrderDisplay = () => {
 
       {/* Footer status bar */}
       <footer className="fixed bottom-0 left-0 right-0 z-10 border-t border-border bg-card/95 backdrop-blur-sm shadow-lg">
-        <div className="container mx-auto px-8 py-4">
+        <div className="container mx-auto px-8 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
-              <div className="flex items-center space-x-2">
-                <div className="h-3 w-3 animate-pulse rounded-full bg-green-500" />
-                <span className="text-sm font-medium text-foreground">
-                  Система активна
-                </span>
-              </div>
-              
-              <div className="h-4 w-px bg-border" />
-              
-              <div className="flex items-center space-x-4 text-base">
-                <div className="flex items-center space-x-2">
-                  <div className="h-3 w-3 rounded-sm bg-green-500" />
+              <div className="flex items-center space-x-5 text-base">
+                <div className="flex items-center space-x-2.5">
+                  <div className="h-5 w-14 rounded border-2 border-green-500 bg-green-500/30" />
                   <span className="text-foreground font-medium">Готов</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <div className="h-3 w-3 rounded-sm bg-red-500" />
+                <div className="flex items-center space-x-2.5">
+                  <div className="h-5 w-14 rounded border-2 border-red-500 bg-red-500/30" />
                   <span className="text-foreground font-medium">Проблема</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <div className="h-3 w-3 rounded-sm bg-yellow-500" />
+                <div className="flex items-center space-x-2.5">
+                  <div className="h-5 w-14 rounded border-2 border-yellow-500 bg-yellow-500/30" />
                   <span className="text-foreground font-medium">Собирается</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <div className="h-3 w-3 rounded-sm bg-blue-500" />
+                <div className="flex items-center space-x-2.5">
+                  <div className="h-5 w-14 rounded border-2 border-blue-500 bg-blue-500/30" />
                   <span className="text-foreground font-medium">На кассу</span>
                 </div>
               </div>
