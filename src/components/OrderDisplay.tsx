@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import OrderCard from "./OrderCard";
-import armtekLogo from "@/assets/armtek-logo.png";
+import armtekLogo from "@/assets/armtek-logo-new.png";
 import gradientBg from "@/assets/gradient-bg.png";
 import { Settings } from "lucide-react";
 import {
@@ -94,10 +94,10 @@ const OrderDisplay = () => {
       />
       
       {/* Header */}
-      <header className="relative z-10 bg-card border-b border-border shadow-sm">
-        <div className="container mx-auto flex items-center justify-between px-8 py-4">
+      <header className="relative z-10 border-b border-border shadow-sm" style={{ backgroundColor: '#30393f' }}>
+        <div className="container mx-auto flex items-center justify-between px-8 py-3">
           <div className="flex items-center space-x-6">
-            <img src={armtekLogo} alt="Armtek" className="h-10 w-auto" />
+            <img src={armtekLogo} alt="Armtek" className="h-8 w-auto" />
             <div className="h-8 w-px bg-border" />
             <h1 className="text-2xl font-bold text-foreground">Статус самовывоза</h1>
           </div>
@@ -210,7 +210,7 @@ const OrderDisplay = () => {
 
       {/* Footer status bar */}
       <footer className="fixed bottom-0 left-0 right-0 z-10 border-t border-border bg-card/95 backdrop-blur-sm shadow-lg">
-        <div className="container mx-auto px-8 py-3">
+        <div className="container mx-auto px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
               <div className="flex items-center space-x-2">
@@ -222,22 +222,22 @@ const OrderDisplay = () => {
               
               <div className="h-4 w-px bg-border" />
               
-              <div className="flex items-center space-x-4 text-sm">
+              <div className="flex items-center space-x-4 text-base">
                 <div className="flex items-center space-x-2">
                   <div className="h-3 w-3 rounded-sm bg-green-500" />
-                  <span className="text-foreground">Готов</span>
+                  <span className="text-foreground font-medium">Готов</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className="h-3 w-3 rounded-sm bg-red-500" />
-                  <span className="text-foreground">Проблема</span>
+                  <span className="text-foreground font-medium">Проблема</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className="h-3 w-3 rounded-sm bg-yellow-500" />
-                  <span className="text-foreground">Собирается</span>
+                  <span className="text-foreground font-medium">Собирается</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <div className="h-3 w-3 rounded-sm bg-blue-500" />
-                  <span className="text-foreground">На кассу</span>
+                  <span className="text-foreground font-medium">На кассу</span>
                 </div>
               </div>
             </div>
