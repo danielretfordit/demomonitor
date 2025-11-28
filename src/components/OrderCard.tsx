@@ -82,13 +82,15 @@ const OrderCard = ({ orderNumber, status, delay = 0 }: OrderCardProps) => {
       <PopoverTrigger asChild>
         <button
           className={cn(
-            "relative overflow-hidden rounded-xl p-4 transition-all duration-500 border-2 shadow-lg hover:shadow-xl cursor-pointer w-full",
+            "relative overflow-hidden rounded-xl p-4 transition-all duration-500 border-2 shadow-lg hover:shadow-xl cursor-pointer",
             config.bgColor,
             config.borderColor,
             isVisible ? "slide-up opacity-100" : "opacity-0"
           )}
           style={{
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2)'
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2)',
+            minWidth: '120px',
+            width: '120px',
           }}
         >
           {/* Content */}
