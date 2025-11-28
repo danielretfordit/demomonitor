@@ -14,7 +14,7 @@ interface OrderCardProps {
 
 const statusConfig = {
   ready: {
-    bgColor: 'bg-green-500/30',
+    bgColor: 'bg-green-500/40',
     borderColor: 'border-green-500',
     accentColor: 'bg-green-500',
     textColor: 'text-white',
@@ -23,7 +23,7 @@ const statusConfig = {
     statusLabel: 'Готов',
   },
   problem: {
-    bgColor: 'bg-red-500/30',
+    bgColor: 'bg-red-500/40',
     borderColor: 'border-red-500',
     accentColor: 'bg-red-500',
     textColor: 'text-white',
@@ -32,7 +32,7 @@ const statusConfig = {
     statusLabel: 'Менеджер',
   },
   collecting: {
-    bgColor: 'bg-yellow-500/30',
+    bgColor: 'bg-yellow-500/40',
     borderColor: 'border-yellow-500',
     accentColor: 'bg-yellow-500',
     textColor: 'text-white',
@@ -41,7 +41,7 @@ const statusConfig = {
     statusLabel: 'Собирается',
   },
   cashier: {
-    bgColor: 'bg-blue-500/30',
+    bgColor: 'bg-blue-500/40',
     borderColor: 'border-blue-500',
     accentColor: 'bg-blue-500',
     textColor: 'text-white',
@@ -97,7 +97,7 @@ const OrderCard = ({ orderNumber, status, delay = 0 }: OrderCardProps) => {
               <p className={cn("text-xs font-medium uppercase tracking-wider mb-1", config.textColor)}>
                 {config.statusLabel}
               </p>
-              <p className={cn("mt-1 text-4xl font-bold tracking-tight", config.numberColor)}>
+              <p className={cn("mt-1 text-4xl font-bold tracking-wide", config.numberColor)}>
                 {orderNumber}
               </p>
             </div>

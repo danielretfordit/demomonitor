@@ -42,7 +42,7 @@ const OrderDisplay = () => {
   const [selectedStore, setSelectedStore] = useState("Магазин №1");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const ordersPerPage = 56;
+  const ordersPerPage = 70; // 10 columns x 7 rows
 
   const stores = [
     "Магазин №1",
@@ -51,6 +51,30 @@ const OrderDisplay = () => {
     "Магазин №4",
     "Магазин №5",
   ];
+
+  // Sort orders vertically (snake pattern by columns)
+  const getSortedOrders = (ordersToSort: Order[]) => {
+    const columns = 10;
+    const rows = 7;
+    const sorted: Order[] = [];
+    
+    // Sort by order number first
+    const numberSorted = [...ordersToSort].sort((a, b) => 
+      parseInt(a.orderNumber) - parseInt(b.orderNumber)
+    );
+    
+    // Fill column by column
+    for (let col = 0; col < columns; col++) {
+      for (let row = 0; row < rows; row++) {
+        const index = col * rows + row;
+        if (index < numberSorted.length) {
+          sorted.push(numberSorted[index]);
+        }
+      }
+    }
+    
+    return sorted;
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -170,8 +194,8 @@ const OrderDisplay = () => {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 mb-6">
-              {orders
+            <div className="grid grid-cols-4 gap-4 sm:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-10 mb-6">
+              {getSortedOrders(orders)
                 .slice((currentPage - 1) * ordersPerPage, currentPage * ordersPerPage)
                 .map((order, index) => (
                   <OrderCard
