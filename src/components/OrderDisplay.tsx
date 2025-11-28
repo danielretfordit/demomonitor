@@ -58,12 +58,12 @@ const OrderDisplay = () => {
       const availableHeight = viewportHeight - headerHeight - footerHeight - paddingTop - paddingBottom;
       const rows = Math.floor((availableHeight + gap) / (cardHeight + gap));
       
-      // Calculate columns based on viewport width
+      // Calculate columns based on full viewport width (edge to edge)
       const viewportWidth = window.innerWidth;
-      const containerPadding = 48; // px-6 on both sides
+      const horizontalPadding = 32; // minimal padding (16px on each side)
       const cardWidth = 120; // fixed card width
       
-      const availableWidth = viewportWidth - containerPadding;
+      const availableWidth = viewportWidth - horizontalPadding;
       const columns = Math.floor((availableWidth + gap) / (cardWidth + gap));
       
       setCardsPerPage(Math.max(rows * columns, 20)); // minimum 20 cards
@@ -211,7 +211,7 @@ const OrderDisplay = () => {
       </header>
 
       {/* Main content */}
-      <main className="relative z-10 container mx-auto px-6 py-6">
+      <main className="relative z-10 px-4 py-6">
         {orders.length === 0 ? (
           <div className="flex min-h-[60vh] items-center justify-center">
             <div className="text-center">
@@ -223,7 +223,7 @@ const OrderDisplay = () => {
           </div>
         ) : (
           <>
-            <div className="grid gap-4 mb-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 120px))' }}>
+            <div className="grid gap-4 mb-6 justify-center" style={{ gridTemplateColumns: 'repeat(auto-fit, 120px)' }}>
               {getSortedOrders(orders)
                 .slice((currentPage - 1) * cardsPerPage, currentPage * cardsPerPage)
                 .map((order, index) => (
