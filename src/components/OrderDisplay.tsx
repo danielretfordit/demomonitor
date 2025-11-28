@@ -42,7 +42,37 @@ const OrderDisplay = () => {
   const [selectedStore, setSelectedStore] = useState("Магазин №1");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const ordersPerPage = 70; // 10 columns x 7 rows
+  const [cardsPerPage, setCardsPerPage] = useState(70);
+
+  // Calculate cards per page based on viewport
+  useEffect(() => {
+    const calculateCardsPerPage = () => {
+      const viewportHeight = window.innerHeight;
+      const headerHeight = 60; // approximate header height
+      const footerHeight = 70; // approximate footer height
+      const paddingTop = 24; // py-6
+      const paddingBottom = 24; // py-6
+      const gap = 16; // gap-4
+      const cardHeight = 120; // approximate card height
+      
+      const availableHeight = viewportHeight - headerHeight - footerHeight - paddingTop - paddingBottom;
+      const rows = Math.floor((availableHeight + gap) / (cardHeight + gap));
+      
+      // Calculate columns based on viewport width
+      const viewportWidth = window.innerWidth;
+      const containerPadding = 48; // px-6 on both sides
+      const cardWidth = 120; // fixed card width
+      
+      const availableWidth = viewportWidth - containerPadding;
+      const columns = Math.floor((availableWidth + gap) / (cardWidth + gap));
+      
+      setCardsPerPage(Math.max(rows * columns, 20)); // minimum 20 cards
+    };
+
+    calculateCardsPerPage();
+    window.addEventListener('resize', calculateCardsPerPage);
+    return () => window.removeEventListener('resize', calculateCardsPerPage);
+  }, []);
 
   const stores = [
     "Магазин №1",
@@ -54,27 +84,26 @@ const OrderDisplay = () => {
 
   // Sort orders vertically (snake pattern by columns)
   const getSortedOrders = (ordersToSort: Order[]) => {
-    const columns = 10;
-    const rows = 7;
-    const sorted: Order[] = [];
-    
     // Sort by order number first
-    const numberSorted = [...ordersToSort].sort((a, b) => 
+    return [...ordersToSort].sort((a, b) => 
       parseInt(a.orderNumber) - parseInt(b.orderNumber)
     );
-    
-    // Fill column by column
-    for (let col = 0; col < columns; col++) {
-      for (let row = 0; row < rows; row++) {
-        const index = col * rows + row;
-        if (index < numberSorted.length) {
-          sorted.push(numberSorted[index]);
-        }
-      }
-    }
-    
-    return sorted;
   };
+
+  // Auto-rotate pages every 10 seconds
+  useEffect(() => {
+    const totalPages = Math.ceil(orders.length / cardsPerPage);
+    if (totalPages <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentPage((prev) => {
+        const next = prev + 1;
+        return next > totalPages ? 1 : next;
+      });
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, [orders.length, cardsPerPage]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -194,9 +223,9 @@ const OrderDisplay = () => {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-4 gap-4 sm:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12 3xl:grid-cols-14 4xl:grid-cols-16 5xl:grid-cols-20 mb-6">
+            <div className="grid gap-4 mb-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 120px))' }}>
               {getSortedOrders(orders)
-                .slice((currentPage - 1) * ordersPerPage, currentPage * ordersPerPage)
+                .slice((currentPage - 1) * cardsPerPage, currentPage * cardsPerPage)
                 .map((order, index) => (
                   <OrderCard
                     key={order.id}
@@ -207,7 +236,7 @@ const OrderDisplay = () => {
                 ))}
             </div>
             
-            {orders.length > ordersPerPage && (
+            {orders.length > cardsPerPage && (
               <div className="flex justify-center">
                 <Pagination>
                   <PaginationContent>
@@ -220,8 +249,8 @@ const OrderDisplay = () => {
                     
                     <PaginationItem>
                       <PaginationNext
-                        onClick={() => setCurrentPage((prev) => Math.min(Math.ceil(orders.length / ordersPerPage), prev + 1))}
-                        className={currentPage === Math.ceil(orders.length / ordersPerPage) ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                        onClick={() => setCurrentPage((prev) => Math.min(Math.ceil(orders.length / cardsPerPage), prev + 1))}
+                        className={currentPage === Math.ceil(orders.length / cardsPerPage) ? "pointer-events-none opacity-50" : "cursor-pointer"}
                       />
                     </PaginationItem>
                   </PaginationContent>
@@ -258,10 +287,10 @@ const OrderDisplay = () => {
             </div>
             
             <div className="flex items-center space-x-6">
-              {orders.length > ordersPerPage && (
+              {orders.length > cardsPerPage && (
                 <>
                   <div className="text-sm text-muted-foreground">
-                    Страница {currentPage} из {Math.ceil(orders.length / ordersPerPage)}
+                    Страница {currentPage} из {Math.ceil(orders.length / cardsPerPage)}
                   </div>
                   <div className="h-4 w-px bg-border" />
                 </>
