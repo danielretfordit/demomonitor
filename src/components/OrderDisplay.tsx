@@ -194,7 +194,7 @@ const OrderDisplay = () => {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-4 gap-4 sm:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-10 mb-6">
+            <div className="grid grid-cols-4 gap-4 sm:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12 3xl:grid-cols-14 4xl:grid-cols-16 5xl:grid-cols-20 mb-6">
               {getSortedOrders(orders)
                 .slice((currentPage - 1) * ordersPerPage, currentPage * ordersPerPage)
                 .map((order, index) => (
