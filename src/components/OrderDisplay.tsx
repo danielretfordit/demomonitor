@@ -43,6 +43,9 @@ const OrderDisplay = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [cardsPerPage, setCardsPerPage] = useState(70);
+  const [selectedStatuses, setSelectedStatuses] = useState<('ready' | 'problem' | 'collecting' | 'cashier')[]>([
+    'ready', 'problem', 'collecting', 'cashier'
+  ]);
 
   // Calculate cards per page based on viewport
   useEffect(() => {
@@ -82,11 +85,21 @@ const OrderDisplay = () => {
     "Магазин №5",
   ];
 
-  // Sort orders vertically (snake pattern by columns)
+  // Filter and sort orders
   const getSortedOrders = (ordersToSort: Order[]) => {
-    // Sort by order number first
-    return [...ordersToSort].sort((a, b) => 
+    // Filter by selected statuses first
+    const filtered = ordersToSort.filter(order => selectedStatuses.includes(order.status));
+    // Then sort by order number
+    return filtered.sort((a, b) => 
       parseInt(a.orderNumber) - parseInt(b.orderNumber)
+    );
+  };
+
+  const toggleStatus = (status: 'ready' | 'problem' | 'collecting' | 'cashier') => {
+    setSelectedStatuses(prev => 
+      prev.includes(status) 
+        ? prev.filter(s => s !== status)
+        : [...prev, status]
     );
   };
 
@@ -185,24 +198,94 @@ const OrderDisplay = () => {
                   <Settings className="h-6 w-6" />
                 </button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className="max-w-md">
                 <DialogHeader>
-                  <DialogTitle>Выбор магазина</DialogTitle>
+                  <DialogTitle>Настройки</DialogTitle>
                 </DialogHeader>
-                <div className="space-y-2 py-4">
-                  {stores.map((store) => (
-                    <Button
-                      key={store}
-                      variant={selectedStore === store ? "default" : "outline"}
-                      className="w-full justify-start"
-                      onClick={() => {
-                        setSelectedStore(store);
-                        setIsDialogOpen(false);
-                      }}
-                    >
-                      {store}
-                    </Button>
-                  ))}
+                <div className="space-y-6 py-4">
+                  {/* Store selection */}
+                  <div>
+                    <h3 className="text-sm font-medium mb-3">Выбор магазина</h3>
+                    <div className="space-y-2">
+                      {stores.map((store) => (
+                        <Button
+                          key={store}
+                          variant={selectedStore === store ? "default" : "outline"}
+                          className="w-full justify-start"
+                          onClick={() => {
+                            setSelectedStore(store);
+                          }}
+                        >
+                          {store}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Status filters */}
+                  <div>
+                    <h3 className="text-sm font-medium mb-3">Фильтр по статусам</h3>
+                    <div className="space-y-2">
+                      <label className="flex items-center space-x-3 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={selectedStatuses.includes('ready')}
+                          onChange={() => toggleStatus('ready')}
+                          className="h-4 w-4 rounded border-gray-300"
+                        />
+                        <div className="flex items-center space-x-2">
+                          <div className="h-4 w-10 rounded border-2 border-green-500 bg-green-500/30" />
+                          <span className="text-sm">Готов</span>
+                        </div>
+                      </label>
+                      
+                      <label className="flex items-center space-x-3 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={selectedStatuses.includes('problem')}
+                          onChange={() => toggleStatus('problem')}
+                          className="h-4 w-4 rounded border-gray-300"
+                        />
+                        <div className="flex items-center space-x-2">
+                          <div className="h-4 w-10 rounded border-2 border-red-500 bg-red-500/30" />
+                          <span className="text-sm">Проблема</span>
+                        </div>
+                      </label>
+                      
+                      <label className="flex items-center space-x-3 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={selectedStatuses.includes('collecting')}
+                          onChange={() => toggleStatus('collecting')}
+                          className="h-4 w-4 rounded border-gray-300"
+                        />
+                        <div className="flex items-center space-x-2">
+                          <div className="h-4 w-10 rounded border-2 border-yellow-500 bg-yellow-500/30" />
+                          <span className="text-sm">Собирается</span>
+                        </div>
+                      </label>
+                      
+                      <label className="flex items-center space-x-3 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={selectedStatuses.includes('cashier')}
+                          onChange={() => toggleStatus('cashier')}
+                          className="h-4 w-4 rounded border-gray-300"
+                        />
+                        <div className="flex items-center space-x-2">
+                          <div className="h-4 w-10 rounded border-2 border-blue-500 bg-blue-500/30" />
+                          <span className="text-sm">На кассу</span>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+
+                  <Button 
+                    className="w-full" 
+                    onClick={() => setIsDialogOpen(false)}
+                  >
+                    Применить
+                  </Button>
                 </div>
               </DialogContent>
             </Dialog>
