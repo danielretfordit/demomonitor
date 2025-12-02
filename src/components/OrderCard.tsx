@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { Undo2 } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -8,7 +9,8 @@ import {
 
 interface OrderCardProps {
   orderNumber: string;
-  status: 'ready' | 'problem' | 'collecting' | 'cashier' | 'return';
+  status: 'ready' | 'problem' | 'collecting' | 'cashier';
+  isReturn?: boolean;
   delay?: number;
 }
 
@@ -49,18 +51,9 @@ const statusConfig = {
     label: 'Направлен на кассу',
     statusLabel: 'Касса',
   },
-  return: {
-    bgColor: 'bg-purple-500/40',
-    borderColor: 'border-purple-500',
-    accentColor: 'bg-purple-500',
-    textColor: 'text-white',
-    numberColor: 'text-white',
-    label: 'Обратная реализация',
-    statusLabel: 'Возврат',
-  },
 };
 
-const OrderCard = ({ orderNumber, status, delay = 0 }: OrderCardProps) => {
+const OrderCard = ({ orderNumber, status, isReturn = false, delay = 0 }: OrderCardProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const config = statusConfig[status];
 
@@ -102,6 +95,13 @@ const OrderCard = ({ orderNumber, status, delay = 0 }: OrderCardProps) => {
             width: '120px',
           }}
         >
+          {/* Return indicator */}
+          {isReturn && (
+            <div className="absolute top-1 right-1 z-20 bg-purple-600 rounded-full p-1 shadow-lg animate-pulse">
+              <Undo2 className="h-3.5 w-3.5 text-white" />
+            </div>
+          )}
+
           {/* Content */}
           <div className="relative z-10 flex flex-col items-center justify-center">
             <div className="text-center">
