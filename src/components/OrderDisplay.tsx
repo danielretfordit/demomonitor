@@ -23,17 +23,19 @@ import {
 interface Order {
   id: string;
   orderNumber: string;
-  status: 'ready' | 'problem' | 'collecting' | 'cashier' | 'return';
+  status: 'ready' | 'problem' | 'collecting' | 'cashier';
+  isReturn?: boolean;
 }
 
 const OrderDisplay = () => {
   const [orders, setOrders] = useState<Order[]>(
     Array.from({ length: 50 }, (_, i) => {
-      const statuses: ('ready' | 'problem' | 'collecting' | 'cashier' | 'return')[] = ['ready', 'problem', 'collecting', 'cashier', 'return'];
+      const statuses: ('ready' | 'problem' | 'collecting' | 'cashier')[] = ['ready', 'problem', 'collecting', 'cashier'];
       return {
         id: String(i + 1),
         orderNumber: String(Math.floor(Math.random() * 9000 + 1000)),
         status: statuses[Math.floor(Math.random() * statuses.length)],
+        isReturn: Math.random() < 0.15, // 15% chance of being a return
       };
     })
   );
@@ -43,9 +45,10 @@ const OrderDisplay = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [cardsPerPage, setCardsPerPage] = useState(70);
-  const [selectedStatuses, setSelectedStatuses] = useState<('ready' | 'problem' | 'collecting' | 'cashier' | 'return')[]>([
-    'ready', 'problem', 'collecting', 'cashier', 'return'
+  const [selectedStatuses, setSelectedStatuses] = useState<('ready' | 'problem' | 'collecting' | 'cashier')[]>([
+    'ready', 'problem', 'collecting', 'cashier'
   ]);
+  const [showReturns, setShowReturns] = useState(true);
 
   // Calculate cards per page based on viewport
   useEffect(() => {
@@ -88,14 +91,18 @@ const OrderDisplay = () => {
   // Filter and sort orders
   const getSortedOrders = (ordersToSort: Order[]) => {
     // Filter by selected statuses first
-    const filtered = ordersToSort.filter(order => selectedStatuses.includes(order.status));
+    let filtered = ordersToSort.filter(order => selectedStatuses.includes(order.status));
+    // Filter by return status if needed
+    if (!showReturns) {
+      filtered = filtered.filter(order => !order.isReturn);
+    }
     // Then sort by order number
     return filtered.sort((a, b) => 
       parseInt(a.orderNumber) - parseInt(b.orderNumber)
     );
   };
 
-  const toggleStatus = (status: 'ready' | 'problem' | 'collecting' | 'cashier' | 'return') => {
+  const toggleStatus = (status: 'ready' | 'problem' | 'collecting' | 'cashier') => {
     setSelectedStatuses(prev => 
       prev.includes(status) 
         ? prev.filter(s => s !== status)
@@ -130,11 +137,12 @@ const OrderDisplay = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       const newOrderNumber = Math.floor(Math.random() * 9000 + 1000).toString();
-      const statuses: ('ready' | 'problem' | 'collecting' | 'cashier' | 'return')[] = ['ready', 'problem', 'collecting', 'cashier', 'return'];
-      const newOrder = {
+      const statuses: ('ready' | 'problem' | 'collecting' | 'cashier')[] = ['ready', 'problem', 'collecting', 'cashier'];
+      const newOrder: Order = {
         id: Date.now().toString(),
         orderNumber: newOrderNumber,
         status: statuses[Math.floor(Math.random() * statuses.length)],
+        isReturn: Math.random() < 0.15,
       };
 
       setOrders((prev) => {
@@ -277,20 +285,26 @@ const OrderDisplay = () => {
                           <span className="text-sm">На кассу</span>
                         </div>
                       </label>
-                      
-                      <label className="flex items-center space-x-3 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={selectedStatuses.includes('return')}
-                          onChange={() => toggleStatus('return')}
-                          className="h-4 w-4 rounded border-gray-300"
-                        />
-                        <div className="flex items-center space-x-2">
-                          <div className="h-4 w-10 rounded border-2 border-purple-500 bg-purple-500/30" />
-                          <span className="text-sm">Обратная реализация</span>
-                        </div>
-                      </label>
                     </div>
+                  </div>
+
+                  {/* Return filter */}
+                  <div>
+                    <h3 className="text-sm font-medium mb-3">Обратная реализация</h3>
+                    <label className="flex items-center space-x-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={showReturns}
+                        onChange={() => setShowReturns(prev => !prev)}
+                        className="h-4 w-4 rounded border-gray-300"
+                      />
+                      <div className="flex items-center space-x-2">
+                        <div className="h-4 w-10 rounded border-2 border-purple-500 bg-purple-500/30 flex items-center justify-center">
+                          <span className="text-[8px] text-purple-300">↩</span>
+                        </div>
+                        <span className="text-sm">Показывать возвраты</span>
+                      </div>
+                    </label>
                   </div>
 
                   <Button 
@@ -327,6 +341,7 @@ const OrderDisplay = () => {
                     key={order.id}
                     orderNumber={order.orderNumber}
                     status={order.status}
+                    isReturn={order.isReturn}
                     delay={index * 10}
                   />
                 ))}
@@ -380,7 +395,9 @@ const OrderDisplay = () => {
                   <span className="text-foreground font-medium">На кассу</span>
                 </div>
                 <div className="flex items-center space-x-2.5">
-                  <div className="h-5 w-14 rounded border-2 border-purple-500 bg-purple-500/30" />
+                  <div className="h-5 w-5 rounded-full bg-purple-600 flex items-center justify-center">
+                    <span className="text-[10px] text-white">↩</span>
+                  </div>
                   <span className="text-foreground font-medium">Возврат</span>
                 </div>
               </div>
