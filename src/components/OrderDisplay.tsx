@@ -23,13 +23,13 @@ import {
 interface Order {
   id: string;
   orderNumber: string;
-  status: 'ready' | 'problem' | 'collecting' | 'cashier';
+  status: 'ready' | 'problem' | 'collecting' | 'cashier' | 'return';
 }
 
 const OrderDisplay = () => {
   const [orders, setOrders] = useState<Order[]>(
     Array.from({ length: 50 }, (_, i) => {
-      const statuses: ('ready' | 'problem' | 'collecting' | 'cashier')[] = ['ready', 'problem', 'collecting', 'cashier'];
+      const statuses: ('ready' | 'problem' | 'collecting' | 'cashier' | 'return')[] = ['ready', 'problem', 'collecting', 'cashier', 'return'];
       return {
         id: String(i + 1),
         orderNumber: String(Math.floor(Math.random() * 9000 + 1000)),
@@ -43,8 +43,8 @@ const OrderDisplay = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [cardsPerPage, setCardsPerPage] = useState(70);
-  const [selectedStatuses, setSelectedStatuses] = useState<('ready' | 'problem' | 'collecting' | 'cashier')[]>([
-    'ready', 'problem', 'collecting', 'cashier'
+  const [selectedStatuses, setSelectedStatuses] = useState<('ready' | 'problem' | 'collecting' | 'cashier' | 'return')[]>([
+    'ready', 'problem', 'collecting', 'cashier', 'return'
   ]);
 
   // Calculate cards per page based on viewport
@@ -95,7 +95,7 @@ const OrderDisplay = () => {
     );
   };
 
-  const toggleStatus = (status: 'ready' | 'problem' | 'collecting' | 'cashier') => {
+  const toggleStatus = (status: 'ready' | 'problem' | 'collecting' | 'cashier' | 'return') => {
     setSelectedStatuses(prev => 
       prev.includes(status) 
         ? prev.filter(s => s !== status)
@@ -130,7 +130,7 @@ const OrderDisplay = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       const newOrderNumber = Math.floor(Math.random() * 9000 + 1000).toString();
-      const statuses: ('ready' | 'problem' | 'collecting' | 'cashier')[] = ['ready', 'problem', 'collecting', 'cashier'];
+      const statuses: ('ready' | 'problem' | 'collecting' | 'cashier' | 'return')[] = ['ready', 'problem', 'collecting', 'cashier', 'return'];
       const newOrder = {
         id: Date.now().toString(),
         orderNumber: newOrderNumber,
@@ -277,6 +277,19 @@ const OrderDisplay = () => {
                           <span className="text-sm">На кассу</span>
                         </div>
                       </label>
+                      
+                      <label className="flex items-center space-x-3 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={selectedStatuses.includes('return')}
+                          onChange={() => toggleStatus('return')}
+                          className="h-4 w-4 rounded border-gray-300"
+                        />
+                        <div className="flex items-center space-x-2">
+                          <div className="h-4 w-10 rounded border-2 border-purple-500 bg-purple-500/30" />
+                          <span className="text-sm">Обратная реализация</span>
+                        </div>
+                      </label>
                     </div>
                   </div>
 
@@ -365,6 +378,10 @@ const OrderDisplay = () => {
                 <div className="flex items-center space-x-2.5">
                   <div className="h-5 w-14 rounded border-2 border-blue-500 bg-blue-500/30" />
                   <span className="text-foreground font-medium">На кассу</span>
+                </div>
+                <div className="flex items-center space-x-2.5">
+                  <div className="h-5 w-14 rounded border-2 border-purple-500 bg-purple-500/30" />
+                  <span className="text-foreground font-medium">Возврат</span>
                 </div>
               </div>
             </div>
