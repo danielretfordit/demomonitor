@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import OrderCard from "./OrderCard";
 import armtekLogo from "@/assets/armtek-logo-new.png";
 import gradientBg from "@/assets/gradient-bg.png";
-import { Settings, Undo2 } from "lucide-react";
+import { Settings } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -24,7 +24,6 @@ interface Order {
   id: string;
   orderNumber: string;
   status: 'ready' | 'problem' | 'collecting' | 'cashier';
-  isReturn?: boolean;
 }
 
 const OrderDisplay = () => {
@@ -35,7 +34,6 @@ const OrderDisplay = () => {
         id: String(i + 1),
         orderNumber: String(Math.floor(Math.random() * 9000 + 1000)),
         status: statuses[Math.floor(Math.random() * statuses.length)],
-        isReturn: Math.random() < 0.15, // 15% chance of being a return
       };
     })
   );
@@ -48,7 +46,6 @@ const OrderDisplay = () => {
   const [selectedStatuses, setSelectedStatuses] = useState<('ready' | 'problem' | 'collecting' | 'cashier')[]>([
     'ready', 'problem', 'collecting', 'cashier'
   ]);
-  const [showReturns, setShowReturns] = useState(true);
 
   // Calculate cards per page based on viewport
   useEffect(() => {
@@ -91,11 +88,7 @@ const OrderDisplay = () => {
   // Filter and sort orders
   const getSortedOrders = (ordersToSort: Order[]) => {
     // Filter by selected statuses first
-    let filtered = ordersToSort.filter(order => selectedStatuses.includes(order.status));
-    // Filter by return status if needed
-    if (!showReturns) {
-      filtered = filtered.filter(order => !order.isReturn);
-    }
+    const filtered = ordersToSort.filter(order => selectedStatuses.includes(order.status));
     // Then sort by order number
     return filtered.sort((a, b) => 
       parseInt(a.orderNumber) - parseInt(b.orderNumber)
@@ -138,11 +131,10 @@ const OrderDisplay = () => {
     const interval = setInterval(() => {
       const newOrderNumber = Math.floor(Math.random() * 9000 + 1000).toString();
       const statuses: ('ready' | 'problem' | 'collecting' | 'cashier')[] = ['ready', 'problem', 'collecting', 'cashier'];
-      const newOrder: Order = {
+      const newOrder = {
         id: Date.now().toString(),
         orderNumber: newOrderNumber,
         status: statuses[Math.floor(Math.random() * statuses.length)],
-        isReturn: Math.random() < 0.15,
       };
 
       setOrders((prev) => {
@@ -288,25 +280,6 @@ const OrderDisplay = () => {
                     </div>
                   </div>
 
-                  {/* Return filter */}
-                  <div>
-                    <h3 className="text-sm font-medium mb-3">Обратная реализация</h3>
-                    <label className="flex items-center space-x-3 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={showReturns}
-                        onChange={() => setShowReturns(prev => !prev)}
-                        className="h-4 w-4 rounded border-gray-300"
-                      />
-                      <div className="flex items-center space-x-2">
-                        <div className="h-5 w-5 rounded-full bg-purple-600 flex items-center justify-center shadow-lg">
-                          <Undo2 className="h-3 w-3 text-white" />
-                        </div>
-                        <span className="text-sm">Показывать возвраты</span>
-                      </div>
-                    </label>
-                  </div>
-
                   <Button 
                     className="w-full" 
                     onClick={() => setIsDialogOpen(false)}
@@ -341,7 +314,6 @@ const OrderDisplay = () => {
                     key={order.id}
                     orderNumber={order.orderNumber}
                     status={order.status}
-                    isReturn={order.isReturn}
                     delay={index * 10}
                   />
                 ))}
@@ -393,12 +365,6 @@ const OrderDisplay = () => {
                 <div className="flex items-center space-x-2.5">
                   <div className="h-5 w-14 rounded border-2 border-blue-500 bg-blue-500/30" />
                   <span className="text-foreground font-medium">На кассу</span>
-                </div>
-                <div className="flex items-center space-x-2.5">
-                  <div className="h-5 w-5 rounded-full bg-purple-600 flex items-center justify-center shadow-lg">
-                    <Undo2 className="h-3 w-3 text-white" />
-                  </div>
-                  <span className="text-foreground font-medium">Возврат</span>
                 </div>
               </div>
             </div>
