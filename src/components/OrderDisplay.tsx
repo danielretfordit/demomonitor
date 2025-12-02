@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import OrderCard from "./OrderCard";
 import armtekLogo from "@/assets/armtek-logo-new.png";
 import gradientBg from "@/assets/gradient-bg.png";
-import { Settings } from "lucide-react";
+import { Settings, Undo2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -299,8 +299,8 @@ const OrderDisplay = () => {
                         className="h-4 w-4 rounded border-gray-300"
                       />
                       <div className="flex items-center space-x-2">
-                        <div className="h-4 w-10 rounded border-2 border-purple-500 bg-purple-500/30 flex items-center justify-center">
-                          <span className="text-[8px] text-purple-300">↩</span>
+                        <div className="h-5 w-5 rounded-full bg-purple-600 flex items-center justify-center shadow-lg">
+                          <Undo2 className="h-3 w-3 text-white" />
                         </div>
                         <span className="text-sm">Показывать возвраты</span>
                       </div>
@@ -395,8 +395,8 @@ const OrderDisplay = () => {
                   <span className="text-foreground font-medium">На кассу</span>
                 </div>
                 <div className="flex items-center space-x-2.5">
-                  <div className="h-5 w-5 rounded-full bg-purple-600 flex items-center justify-center">
-                    <span className="text-[10px] text-white">↩</span>
+                  <div className="h-5 w-5 rounded-full bg-purple-600 flex items-center justify-center shadow-lg">
+                    <Undo2 className="h-3 w-3 text-white" />
                   </div>
                   <span className="text-foreground font-medium">Возврат</span>
                 </div>
