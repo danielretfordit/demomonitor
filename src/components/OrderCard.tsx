@@ -100,7 +100,7 @@ const OrderCard = ({ orderNumber, status, delay = 0 }: OrderCardProps) => {
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2)',
             minWidth: '120px',
             width: '120px',
-            height: '120px',
+            height: '80px',
           }}
         >
           {/* Content */}
