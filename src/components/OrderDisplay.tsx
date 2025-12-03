@@ -310,17 +310,19 @@ const OrderDisplay = () => {
             </div>
           </div>
         ) : (
-          <div className="flex flex-wrap justify-center gap-4">
-            {filteredOrders
-              .slice(currentPage * cardsPerPage, (currentPage + 1) * cardsPerPage)
-              .map((order, index) => (
-                <OrderCard
-                  key={order.id}
-                  orderNumber={order.orderNumber}
-                  status={order.status}
-                  delay={index * 10}
-                />
-              ))}
+          <div className="flex justify-center w-full">
+            <div className="flex flex-wrap justify-start gap-4" style={{ maxWidth: 'calc(100vw - 32px)' }}>
+              {filteredOrders
+                .slice(currentPage * cardsPerPage, (currentPage + 1) * cardsPerPage)
+                .map((order, index) => (
+                  <OrderCard
+                    key={order.id}
+                    orderNumber={order.orderNumber}
+                    status={order.status}
+                    delay={index * 10}
+                  />
+                ))}
+            </div>
           </div>
         )}
       </main>
