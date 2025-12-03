@@ -33,14 +33,15 @@ const OrderDisplay = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [selectedStore, setSelectedStore] = useState("Магазин №1");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [maxCards, setMaxCards] = useState(250);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [cardsPerPage, setCardsPerPage] = useState(70);
   const [selectedStatuses, setSelectedStatuses] = useState<('ready' | 'problem' | 'collecting' | 'cashier' | 'new')[]>([
     'ready', 'problem', 'collecting', 'cashier', 'new'
   ]);
 
-  // Calculate max cards based on viewport
+  // Calculate cards per page based on viewport
   useEffect(() => {
-    const calculateMaxCards = () => {
+    const calculateCardsPerPage = () => {
       const viewportHeight = window.innerHeight;
       const headerHeight = 60;
       const footerHeight = 70;
@@ -59,12 +60,12 @@ const OrderDisplay = () => {
       const availableWidth = viewportWidth - horizontalPadding;
       const columns = Math.floor((availableWidth + gap) / (cardWidth + gap));
       
-      setMaxCards(Math.max(rows * columns, 20));
+      setCardsPerPage(Math.max(rows * columns, 10));
     };
 
-    calculateMaxCards();
-    window.addEventListener('resize', calculateMaxCards);
-    return () => window.removeEventListener('resize', calculateMaxCards);
+    calculateCardsPerPage();
+    window.addEventListener('resize', calculateCardsPerPage);
+    return () => window.removeEventListener('resize', calculateCardsPerPage);
   }, []);
 
   const stores = [
@@ -103,6 +104,22 @@ const OrderDisplay = () => {
   }, []);
 
   // Simulate new orders coming in
+  // Auto-rotate pages every 10 seconds
+  useEffect(() => {
+    const filteredOrders = getSortedOrders(orders);
+    const totalPages = Math.ceil(filteredOrders.length / cardsPerPage);
+    if (totalPages <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentPage((prev) => {
+        const next = prev + 1;
+        return next > totalPages ? 1 : next;
+      });
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, [orders, cardsPerPage, selectedStatuses]);
+
   useEffect(() => {
     const interval = setInterval(() => {
       const newOrderNumber = Math.floor(Math.random() * 9000 + 1000).toString();
@@ -296,6 +313,7 @@ const OrderDisplay = () => {
         ) : (
           <div className="grid gap-4 justify-center" style={{ gridTemplateColumns: 'repeat(auto-fit, 120px)' }}>
             {getSortedOrders(orders)
+              .slice((currentPage - 1) * cardsPerPage, currentPage * cardsPerPage)
               .map((order, index) => (
                 <OrderCard
                   key={order.id}
@@ -338,6 +356,14 @@ const OrderDisplay = () => {
             </div>
             
             <div className="flex items-center space-x-6">
+              {getSortedOrders(orders).length > cardsPerPage && (
+                <>
+                  <div className="text-sm text-muted-foreground">
+                    Страница {currentPage} из {Math.ceil(getSortedOrders(orders).length / cardsPerPage)}
+                  </div>
+                  <div className="h-4 w-px bg-border" />
+                </>
+              )}
               <div className="text-sm text-muted-foreground">
                 {currentTime.toLocaleDateString("ru-RU", {
                   day: "2-digit",
