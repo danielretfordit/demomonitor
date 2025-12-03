@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import OrderCard from "./OrderCard";
 import armtekLogo from "@/assets/armtek-logo-new.png";
 import gradientBg from "@/assets/gradient-bg.png";
@@ -38,34 +38,44 @@ const OrderDisplay = () => {
   const [selectedStatuses, setSelectedStatuses] = useState<('ready' | 'problem' | 'collecting' | 'cashier' | 'new')[]>([
     'ready', 'problem', 'collecting', 'cashier', 'new'
   ]);
+  
+  const headerRef = useRef<HTMLElement>(null);
+  const footerRef = useRef<HTMLElement>(null);
+  const mainRef = useRef<HTMLElement>(null);
 
-  // Calculate cards per page based on viewport
+  // Calculate cards per page based on actual measured elements
   useEffect(() => {
     const calculateCardsPerPage = () => {
+      const headerHeight = headerRef.current?.offsetHeight || 50;
+      const footerHeight = footerRef.current?.offsetHeight || 50;
       const viewportHeight = window.innerHeight;
-      const headerHeight = 52;
-      const footerHeight = 52;
-      const mainPaddingY = 12; // py-3 = 12px top + bottom
+      const viewportWidth = window.innerWidth;
+      
       const gap = 16;
       const cardHeight = 120;
+      const cardWidth = 120;
+      const mainPaddingY = 24;
       
       const availableHeight = viewportHeight - headerHeight - footerHeight - mainPaddingY;
-      const rows = Math.floor(availableHeight / (cardHeight + gap));
+      // For N rows: total = N * cardHeight + (N-1) * gap = N * (cardHeight + gap) - gap
+      // So: N = floor((availableHeight + gap) / (cardHeight + gap))
+      const rows = Math.floor((availableHeight + gap) / (cardHeight + gap));
       
-      const viewportWidth = window.innerWidth;
       const horizontalPadding = 32;
-      const cardWidth = 120;
-      
       const availableWidth = viewportWidth - horizontalPadding;
-      const columns = Math.floor(availableWidth / (cardWidth + gap));
+      const columns = Math.floor((availableWidth + gap) / (cardWidth + gap));
       
       const total = Math.max(rows * columns, 1);
       setCardsPerPage(total);
     };
 
+    const timer = setTimeout(calculateCardsPerPage, 50);
     calculateCardsPerPage();
     window.addEventListener('resize', calculateCardsPerPage);
-    return () => window.removeEventListener('resize', calculateCardsPerPage);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', calculateCardsPerPage);
+    };
   }, []);
 
   const stores = [
@@ -159,7 +169,7 @@ const OrderDisplay = () => {
       />
       
       {/* Header */}
-      <header className="relative z-10 border-b border-border shadow-sm" style={{ backgroundColor: '#30393f' }}>
+      <header ref={headerRef} className="relative z-10 border-b border-border shadow-sm" style={{ backgroundColor: '#30393f' }}>
         <div className="container mx-auto flex items-center justify-between px-8 py-2.5">
           <div className="flex items-center space-x-6">
             <img src={armtekLogo} alt="Armtek" className="h-8 w-auto" />
@@ -306,7 +316,7 @@ const OrderDisplay = () => {
       </header>
 
       {/* Main content */}
-      <main className="relative z-10 px-4 py-3">
+      <main ref={mainRef} className="relative z-10 px-4 py-3">
         {orders.length === 0 ? (
           <div className="flex min-h-[60vh] items-center justify-center">
             <div className="text-center">
@@ -333,7 +343,7 @@ const OrderDisplay = () => {
       </main>
 
       {/* Footer status bar */}
-      <footer className="fixed bottom-0 left-0 right-0 z-10 border-t border-border bg-card/95 backdrop-blur-sm shadow-lg">
+      <footer ref={footerRef} className="fixed bottom-0 left-0 right-0 z-10 border-t border-border bg-card/95 backdrop-blur-sm shadow-lg">
         <div className="container mx-auto px-8 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
