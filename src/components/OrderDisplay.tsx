@@ -296,7 +296,6 @@ const OrderDisplay = () => {
         ) : (
           <div className="grid gap-4 justify-center" style={{ gridTemplateColumns: 'repeat(auto-fit, 120px)' }}>
             {getSortedOrders(orders)
-              .slice(0, maxCards)
               .map((order, index) => (
                 <OrderCard
                   key={order.id}
