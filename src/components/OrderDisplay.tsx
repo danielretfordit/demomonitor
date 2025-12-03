@@ -43,29 +43,22 @@ const OrderDisplay = () => {
   const footerRef = useRef<HTMLElement>(null);
   const mainRef = useRef<HTMLElement>(null);
 
-  // Calculate cards per page based on actual measured elements
+  // Calculate cards per page based on viewport
   useEffect(() => {
     const calculateCardsPerPage = () => {
-      const header = headerRef.current;
-      const footer = footerRef.current;
+      const gap = 16; // gap-4
+      const cardHeight = 80;
+      const cardWidth = 120;
+      const headerHeight = 52; // Fixed header height
+      const footerHeight = 48; // Fixed footer height
       
-      if (!header || !footer) return;
-      
-      const headerHeight = header.getBoundingClientRect().height;
-      const footerHeight = footer.getBoundingClientRect().height;
       const viewportHeight = window.innerHeight;
       const viewportWidth = window.innerWidth;
       
-      const gap = 16; // gap-4
-      const cardHeight = 120;
-      const cardWidth = 120;
-      const topPadding = 4; // pt-1
-      
-      // Available height = viewport - header - footer - top padding
-      const availableHeight = viewportHeight - headerHeight - footerHeight - topPadding;
+      // Available height = viewport - header - footer
+      const availableHeight = viewportHeight - headerHeight - footerHeight;
       
       // For N rows: N*cardHeight + (N-1)*gap <= availableHeight
-      // N*(cardHeight + gap) <= availableHeight + gap
       // N <= (availableHeight + gap) / (cardHeight + gap)
       const rows = Math.floor((availableHeight + gap) / (cardHeight + gap));
       
@@ -75,26 +68,15 @@ const OrderDisplay = () => {
       
       const total = rows * columns;
       
-      console.log('Cards calc:', { 
-        viewportHeight, 
-        headerHeight, 
-        footerHeight, 
-        availableHeight, 
-        rows, 
-        columns, 
-        total 
-      });
-      
       if (total > 0) {
         setCardsPerPage(total);
       }
     };
 
-    const timer = setTimeout(calculateCardsPerPage, 100);
+    calculateCardsPerPage();
     window.addEventListener('resize', calculateCardsPerPage);
     
     return () => {
-      clearTimeout(timer);
       window.removeEventListener('resize', calculateCardsPerPage);
     };
   }, []);
