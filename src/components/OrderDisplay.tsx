@@ -43,21 +43,21 @@ const OrderDisplay = () => {
   useEffect(() => {
     const calculateCardsPerPage = () => {
       const viewportHeight = window.innerHeight;
-      const headerHeight = 56; // header actual height
-      const footerHeight = 64; // footer actual height
-      const mainPadding = 48; // py-6 = 24px top + 24px bottom
-      const gap = 16; // gap-4
+      const headerHeight = 52;
+      const footerHeight = 52;
+      const mainPaddingY = 12; // py-3 = 12px top + bottom
+      const gap = 16;
       const cardHeight = 120;
       
-      const availableHeight = viewportHeight - headerHeight - footerHeight - mainPadding;
-      const rows = Math.floor((availableHeight + gap) / (cardHeight + gap));
+      const availableHeight = viewportHeight - headerHeight - footerHeight - mainPaddingY;
+      const rows = Math.floor(availableHeight / (cardHeight + gap));
       
       const viewportWidth = window.innerWidth;
-      const horizontalPadding = 32; // px-4 = 16px each side
+      const horizontalPadding = 32;
       const cardWidth = 120;
       
       const availableWidth = viewportWidth - horizontalPadding;
-      const columns = Math.floor((availableWidth + gap) / (cardWidth + gap));
+      const columns = Math.floor(availableWidth / (cardWidth + gap));
       
       const total = Math.max(rows * columns, 1);
       setCardsPerPage(total);
@@ -306,7 +306,7 @@ const OrderDisplay = () => {
       </header>
 
       {/* Main content */}
-      <main className="relative z-10 px-4 py-6">
+      <main className="relative z-10 px-4 py-3">
         {orders.length === 0 ? (
           <div className="flex min-h-[60vh] items-center justify-center">
             <div className="text-center">
