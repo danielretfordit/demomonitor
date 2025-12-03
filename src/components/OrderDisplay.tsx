@@ -277,8 +277,8 @@ const OrderDisplay = () => {
                           onChange={() => toggleStatus('new')}
                           className="h-4 w-4 rounded border-gray-300"
                         />
-                        <div className="flex items-center space-x-2">
-                          <div className="h-4 w-10 rounded border-2 border-white bg-gray-700/50" />
+                      <div className="flex items-center space-x-2">
+                          <div className="h-4 w-10 rounded border-2 border-gray-400 bg-gray-700/50" />
                           <span className="text-sm">Ожидает отбора</span>
                         </div>
                       </label>
@@ -349,7 +349,7 @@ const OrderDisplay = () => {
                   <span className="text-foreground font-medium">Подойдите к кассе</span>
                 </div>
                 <div className="flex items-center space-x-2.5">
-                  <div className="h-5 w-14 rounded border-2 border-white bg-gray-700/50" />
+                  <div className="h-5 w-14 rounded border-2 border-gray-400 bg-gray-700/50" />
                   <span className="text-foreground font-medium">Ожидает отбора</span>
                 </div>
               </div>

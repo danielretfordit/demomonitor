@@ -49,8 +49,8 @@ const statusConfig = {
   },
   new: {
     bgColor: 'bg-gray-700/50',
-    borderColor: 'border-white',
-    accentColor: 'bg-white',
+    borderColor: 'border-gray-400',
+    accentColor: 'bg-gray-400',
     textColor: 'text-white',
     numberColor: 'text-white',
     label: 'Ожидает отбора',
