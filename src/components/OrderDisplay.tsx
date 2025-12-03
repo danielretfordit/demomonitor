@@ -56,21 +56,35 @@ const OrderDisplay = () => {
       const viewportHeight = window.innerHeight;
       const viewportWidth = window.innerWidth;
       
-      const gap = 16;
+      const gap = 16; // gap-4
       const cardHeight = 120;
       const cardWidth = 120;
+      const topPadding = 4; // pt-1
       
-      // Calculate available space (minimal padding)
-      const availableHeight = viewportHeight - headerHeight - footerHeight - 4;
-      // For N rows with gaps: N*cardHeight + (N-1)*gap <= availableHeight
-      // N*(cardHeight+gap) - gap <= availableHeight
+      // Available height = viewport - header - footer - top padding
+      const availableHeight = viewportHeight - headerHeight - footerHeight - topPadding;
+      
+      // For N rows: N*cardHeight + (N-1)*gap <= availableHeight
+      // N*(cardHeight + gap) <= availableHeight + gap
       // N <= (availableHeight + gap) / (cardHeight + gap)
       const rows = Math.floor((availableHeight + gap) / (cardHeight + gap));
       
+      // Available width = viewport - horizontal padding (px-4 = 16*2)
       const availableWidth = viewportWidth - 32;
       const columns = Math.floor((availableWidth + gap) / (cardWidth + gap));
       
       const total = rows * columns;
+      
+      console.log('Cards calc:', { 
+        viewportHeight, 
+        headerHeight, 
+        footerHeight, 
+        availableHeight, 
+        rows, 
+        columns, 
+        total 
+      });
+      
       if (total > 0) {
         setCardsPerPage(total);
       }
