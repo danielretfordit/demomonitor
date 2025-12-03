@@ -104,11 +104,11 @@ const OrderCard = ({ orderNumber, status, delay = 0 }: OrderCardProps) => {
           }}
         >
           {/* Content */}
-          <div className="relative z-10 flex flex-col items-center justify-center h-full pb-1">
-            <p className={cn("text-[10px] font-semibold uppercase tracking-wide", config.textColor)}>
+          <div className="relative z-10 flex flex-col items-center justify-center h-full gap-0.5">
+            <p className={cn("text-xs font-semibold uppercase tracking-wide", config.textColor)}>
               {config.statusLabel}
             </p>
-            <p className={cn("text-3xl font-bold leading-none", config.numberColor)}>
+            <p className={cn("text-4xl font-bold leading-none -mt-0.5", config.numberColor)}>
               {orderNumber}
             </p>
           </div>
