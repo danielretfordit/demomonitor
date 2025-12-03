@@ -169,7 +169,7 @@ const OrderDisplay = () => {
       
       {/* Header */}
       <header ref={headerRef} className="relative z-10 border-b border-border shadow-sm" style={{ backgroundColor: '#30393f' }}>
-        <div className="container mx-auto flex items-center justify-between px-8 py-2.5">
+        <div className="flex items-center justify-between px-4 py-2.5">
           <div className="flex items-center space-x-6">
             <img src={armtekLogo} alt="Armtek" className="h-8 w-auto" />
             <div className="h-8 w-px bg-border" />
@@ -343,7 +343,7 @@ const OrderDisplay = () => {
 
       {/* Footer status bar */}
       <footer ref={footerRef} className="fixed bottom-0 left-0 right-0 z-10 border-t border-border bg-card/95 backdrop-blur-sm shadow-lg">
-        <div className="container mx-auto px-8 py-3">
+        <div className="px-4 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
               <div className="flex items-center space-x-5 text-base">
