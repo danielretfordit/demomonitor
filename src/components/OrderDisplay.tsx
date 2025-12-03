@@ -33,7 +33,7 @@ const OrderDisplay = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [selectedStore, setSelectedStore] = useState("Магазин №1");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [cardsPerPage, setCardsPerPage] = useState(100);
+  const [cardsPerPage, setCardsPerPage] = useState(200);
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedStatuses, setSelectedStatuses] = useState<('ready' | 'problem' | 'collecting' | 'cashier' | 'new')[]>([
     'ready', 'problem', 'collecting', 'cashier', 'new'
@@ -46,35 +46,42 @@ const OrderDisplay = () => {
   // Calculate cards per page based on actual measured elements
   useEffect(() => {
     const calculateCardsPerPage = () => {
-      const headerHeight = headerRef.current?.offsetHeight || 48;
-      const footerHeight = footerRef.current?.offsetHeight || 48;
+      const header = headerRef.current;
+      const footer = footerRef.current;
+      
+      if (!header || !footer) return;
+      
+      const headerHeight = header.getBoundingClientRect().height;
+      const footerHeight = footer.getBoundingClientRect().height;
       const viewportHeight = window.innerHeight;
       const viewportWidth = window.innerWidth;
       
       const gap = 16;
       const cardHeight = 120;
       const cardWidth = 120;
-      const verticalPadding = 8; // pt-2
+      const verticalPadding = 8;
       
       const availableHeight = viewportHeight - headerHeight - footerHeight - verticalPadding;
       const rows = Math.floor(availableHeight / (cardHeight + gap));
       
-      const horizontalPadding = 32; // px-4 each side
+      const horizontalPadding = 32;
       const availableWidth = viewportWidth - horizontalPadding;
       const columns = Math.floor(availableWidth / (cardWidth + gap));
       
-      const total = Math.max(rows * columns, 1);
-      setCardsPerPage(total);
+      const total = rows * columns;
+      if (total > 0) {
+        setCardsPerPage(total);
+      }
     };
 
-    // Recalculate after DOM is ready
-    requestAnimationFrame(() => {
-      setTimeout(calculateCardsPerPage, 50);
-    });
+    // Wait for DOM to be ready
+    const timer = setTimeout(calculateCardsPerPage, 100);
     
-    calculateCardsPerPage();
+    // Also recalculate on resize
     window.addEventListener('resize', calculateCardsPerPage);
+    
     return () => {
+      clearTimeout(timer);
       window.removeEventListener('resize', calculateCardsPerPage);
     };
   }, []);
