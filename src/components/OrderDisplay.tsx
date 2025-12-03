@@ -20,11 +20,11 @@ interface Order {
 
 const OrderDisplay = () => {
   const [orders, setOrders] = useState<Order[]>(
-    Array.from({ length: 250 }, (_, i) => {
+    Array.from({ length: 500 }, (_, i) => {
       const statuses: ('ready' | 'problem' | 'collecting' | 'cashier' | 'new')[] = ['ready', 'problem', 'collecting', 'cashier', 'new'];
       return {
         id: String(i + 1),
-        orderNumber: String(Math.floor(Math.random() * 9000 + 1000)),
+        orderNumber: String(1000 + i),
         status: statuses[Math.floor(Math.random() * statuses.length)],
       };
     })
@@ -46,33 +46,35 @@ const OrderDisplay = () => {
   // Calculate cards per page based on actual measured elements
   useEffect(() => {
     const calculateCardsPerPage = () => {
-      const headerHeight = headerRef.current?.offsetHeight || 52;
-      const footerHeight = footerRef.current?.offsetHeight || 52;
+      const headerHeight = headerRef.current?.offsetHeight || 48;
+      const footerHeight = footerRef.current?.offsetHeight || 48;
       const viewportHeight = window.innerHeight;
       const viewportWidth = window.innerWidth;
       
       const gap = 16;
       const cardHeight = 120;
       const cardWidth = 120;
-      const topPadding = 12; // py-3 top
+      const verticalPadding = 8; // pt-2
       
-      // Available height = viewport - header - footer - top padding
-      const availableHeight = viewportHeight - headerHeight - footerHeight - topPadding;
-      const rows = Math.floor((availableHeight + gap) / (cardHeight + gap));
+      const availableHeight = viewportHeight - headerHeight - footerHeight - verticalPadding;
+      const rows = Math.floor(availableHeight / (cardHeight + gap));
       
-      const horizontalPadding = 32;
+      const horizontalPadding = 32; // px-4 each side
       const availableWidth = viewportWidth - horizontalPadding;
-      const columns = Math.floor((availableWidth + gap) / (cardWidth + gap));
+      const columns = Math.floor(availableWidth / (cardWidth + gap));
       
       const total = Math.max(rows * columns, 1);
       setCardsPerPage(total);
     };
 
-    const timer = setTimeout(calculateCardsPerPage, 100);
+    // Recalculate after DOM is ready
+    requestAnimationFrame(() => {
+      setTimeout(calculateCardsPerPage, 50);
+    });
+    
     calculateCardsPerPage();
     window.addEventListener('resize', calculateCardsPerPage);
     return () => {
-      clearTimeout(timer);
       window.removeEventListener('resize', calculateCardsPerPage);
     };
   }, []);
@@ -112,27 +114,7 @@ const OrderDisplay = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Simulate new orders coming in
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const newOrderNumber = Math.floor(Math.random() * 9000 + 1000).toString();
-      const statuses: ('ready' | 'problem' | 'collecting' | 'cashier' | 'new')[] = ['ready', 'problem', 'collecting', 'cashier', 'new'];
-      const newOrder = {
-        id: Date.now().toString(),
-        orderNumber: newOrderNumber,
-        status: statuses[Math.floor(Math.random() * statuses.length)],
-      };
-
-      setOrders((prev) => {
-        const updated = [newOrder, ...prev];
-        return updated.slice(0, 50); // Keep max 50 orders
-      });
-    }, 8000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Auto-pagination
+  // Auto-pagination - cyclic page turning
   const filteredOrders = getSortedOrders(orders);
   const totalPages = Math.ceil(filteredOrders.length / cardsPerPage);
   
@@ -144,7 +126,7 @@ const OrderDisplay = () => {
     
     const interval = setInterval(() => {
       setCurrentPage((prev) => (prev + 1) % totalPages);
-    }, 10000);
+    }, 5000); // 5 seconds per page
 
     return () => clearInterval(interval);
   }, [totalPages]);
@@ -315,7 +297,7 @@ const OrderDisplay = () => {
       </header>
 
       {/* Main content */}
-      <main ref={mainRef} className="relative z-10 px-4 pt-3">
+      <main ref={mainRef} className="relative z-10 px-4 pt-2">
         {orders.length === 0 ? (
           <div className="flex min-h-[60vh] items-center justify-center">
             <div className="text-center">
