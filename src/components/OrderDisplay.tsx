@@ -227,7 +227,7 @@ const OrderDisplay = () => {
                         />
                         <div className="flex items-center space-x-2">
                           <div className="h-4 w-10 rounded border-2 border-green-500 bg-green-500/30" />
-                          <span className="text-sm">Готов</span>
+                          <span className="text-sm">Готов к выдаче</span>
                         </div>
                       </label>
                       
@@ -240,7 +240,7 @@ const OrderDisplay = () => {
                         />
                         <div className="flex items-center space-x-2">
                           <div className="h-4 w-10 rounded border-2 border-red-500 bg-red-500/30" />
-                          <span className="text-sm">Проблема</span>
+                          <span className="text-sm">Обратитесь к менеджеру</span>
                         </div>
                       </label>
                       
@@ -266,7 +266,7 @@ const OrderDisplay = () => {
                         />
                         <div className="flex items-center space-x-2">
                           <div className="h-4 w-10 rounded border-2 border-blue-500 bg-blue-500/30" />
-                          <span className="text-sm">На кассу</span>
+                          <span className="text-sm">Подойдите к кассе</span>
                         </div>
                       </label>
                       
@@ -279,7 +279,7 @@ const OrderDisplay = () => {
                         />
                         <div className="flex items-center space-x-2">
                           <div className="h-4 w-10 rounded border-2 border-white bg-gray-700/50" />
-                          <span className="text-sm">Новый</span>
+                          <span className="text-sm">Ожидает отбора</span>
                         </div>
                       </label>
                     </div>
@@ -330,14 +330,14 @@ const OrderDisplay = () => {
         <div className="px-4 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
-              <div className="flex items-center space-x-5 text-base">
+                <div className="flex items-center space-x-5 text-base">
                 <div className="flex items-center space-x-2.5">
                   <div className="h-5 w-14 rounded border-2 border-green-500 bg-green-500/30" />
-                  <span className="text-foreground font-medium">Готов</span>
+                  <span className="text-foreground font-medium">Готов к выдаче</span>
                 </div>
                 <div className="flex items-center space-x-2.5">
                   <div className="h-5 w-14 rounded border-2 border-red-500 bg-red-500/30" />
-                  <span className="text-foreground font-medium">Проблема</span>
+                  <span className="text-foreground font-medium">Обратитесь к менеджеру</span>
                 </div>
                 <div className="flex items-center space-x-2.5">
                   <div className="h-5 w-14 rounded border-2 border-yellow-500 bg-yellow-500/30" />
@@ -345,11 +345,11 @@ const OrderDisplay = () => {
                 </div>
                 <div className="flex items-center space-x-2.5">
                   <div className="h-5 w-14 rounded border-2 border-blue-500 bg-blue-500/30" />
-                  <span className="text-foreground font-medium">На кассу</span>
+                  <span className="text-foreground font-medium">Подойдите к кассе</span>
                 </div>
                 <div className="flex items-center space-x-2.5">
                   <div className="h-5 w-14 rounded border-2 border-white bg-gray-700/50" />
-                  <span className="text-foreground font-medium">Новый</span>
+                  <span className="text-foreground font-medium">Ожидает отбора</span>
                 </div>
               </div>
             </div>
