@@ -128,7 +128,7 @@ const OrderDisplay = () => {
     
     const interval = setInterval(() => {
       setCurrentPage((prev) => (prev + 1) % totalPages);
-    }, 10000); // 10 seconds per page
+    }, 20000); // 20 seconds per page
 
     return () => clearInterval(interval);
   }, [totalPages]);
