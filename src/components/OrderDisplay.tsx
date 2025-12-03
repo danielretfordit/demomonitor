@@ -240,7 +240,7 @@ const OrderDisplay = () => {
                         />
                         <div className="flex items-center space-x-2">
                           <div className="h-4 w-10 rounded border-2 border-red-500 bg-red-500/30" />
-                          <span className="text-sm">Обратитесь к менеджеру</span>
+                          <span className="text-sm">Обратитесь к продавцу</span>
                         </div>
                       </label>
                       
@@ -337,7 +337,7 @@ const OrderDisplay = () => {
                 </div>
                 <div className="flex items-center space-x-2.5">
                   <div className="h-5 w-14 rounded border-2 border-red-500 bg-red-500/30" />
-                  <span className="text-foreground font-medium">Обратитесь к менеджеру</span>
+                  <span className="text-foreground font-medium">Обратитесь к продавцу</span>
                 </div>
                 <div className="flex items-center space-x-2.5">
                   <div className="h-5 w-14 rounded border-2 border-yellow-500 bg-yellow-500/30" />

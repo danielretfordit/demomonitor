@@ -28,8 +28,8 @@ const statusConfig = {
     accentColor: 'bg-red-500',
     textColor: 'text-white',
     numberColor: 'text-white',
-    label: 'Обратитесь к менеджеру',
-    statusLabel: 'Менеджер',
+    label: 'Обратитесь к продавцу',
+    statusLabel: 'Проблема',
   },
   collecting: {
     bgColor: 'bg-yellow-500/40',
@@ -56,7 +56,7 @@ const statusConfig = {
     textColor: 'text-white',
     numberColor: 'text-white',
     label: 'Ожидает отбора',
-    statusLabel: 'Ожидает',
+    statusLabel: 'Новый',
   },
 };
 
