@@ -19,7 +19,7 @@ const statusConfig = {
     accentColor: 'bg-green-500',
     textColor: 'text-white',
     numberColor: 'text-white',
-    label: 'Готов к отгрузке',
+    label: 'Готов к выдаче',
     statusLabel: 'Готов',
   },
   problem: {
@@ -28,7 +28,7 @@ const statusConfig = {
     accentColor: 'bg-red-500',
     textColor: 'text-white',
     numberColor: 'text-white',
-    label: 'Требуется менеджер',
+    label: 'Обратитесь к менеджеру',
     statusLabel: 'Менеджер',
   },
   collecting: {
@@ -46,7 +46,7 @@ const statusConfig = {
     accentColor: 'bg-blue-500',
     textColor: 'text-white',
     numberColor: 'text-white',
-    label: 'Направлен на кассу',
+    label: 'Подойдите к кассе',
     statusLabel: 'Касса',
   },
   new: {
@@ -55,8 +55,8 @@ const statusConfig = {
     accentColor: 'bg-white',
     textColor: 'text-white',
     numberColor: 'text-white',
-    label: 'Новый заказ',
-    statusLabel: 'Новый',
+    label: 'Ожидает отбора',
+    statusLabel: 'Ожидает',
   },
 };
 
