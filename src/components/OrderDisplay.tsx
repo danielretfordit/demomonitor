@@ -59,14 +59,16 @@ const OrderDisplay = () => {
       const gap = 16;
       const cardHeight = 120;
       const cardWidth = 120;
-      const verticalPadding = 8;
       
-      const availableHeight = viewportHeight - headerHeight - footerHeight - verticalPadding;
-      const rows = Math.floor(availableHeight / (cardHeight + gap));
+      // Calculate available space (minimal padding)
+      const availableHeight = viewportHeight - headerHeight - footerHeight - 4;
+      // For N rows with gaps: N*cardHeight + (N-1)*gap <= availableHeight
+      // N*(cardHeight+gap) - gap <= availableHeight
+      // N <= (availableHeight + gap) / (cardHeight + gap)
+      const rows = Math.floor((availableHeight + gap) / (cardHeight + gap));
       
-      const horizontalPadding = 32;
-      const availableWidth = viewportWidth - horizontalPadding;
-      const columns = Math.floor(availableWidth / (cardWidth + gap));
+      const availableWidth = viewportWidth - 32;
+      const columns = Math.floor((availableWidth + gap) / (cardWidth + gap));
       
       const total = rows * columns;
       if (total > 0) {
@@ -74,10 +76,7 @@ const OrderDisplay = () => {
       }
     };
 
-    // Wait for DOM to be ready
     const timer = setTimeout(calculateCardsPerPage, 100);
-    
-    // Also recalculate on resize
     window.addEventListener('resize', calculateCardsPerPage);
     
     return () => {
@@ -304,7 +303,7 @@ const OrderDisplay = () => {
       </header>
 
       {/* Main content */}
-      <main ref={mainRef} className="relative z-10 px-4 pt-2">
+      <main ref={mainRef} className="relative z-10 px-4 pt-1">
         {orders.length === 0 ? (
           <div className="flex min-h-[60vh] items-center justify-center">
             <div className="text-center">
