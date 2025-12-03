@@ -46,19 +46,18 @@ const OrderDisplay = () => {
   // Calculate cards per page based on actual measured elements
   useEffect(() => {
     const calculateCardsPerPage = () => {
-      const headerHeight = headerRef.current?.offsetHeight || 50;
-      const footerHeight = footerRef.current?.offsetHeight || 50;
+      const headerHeight = headerRef.current?.offsetHeight || 52;
+      const footerHeight = footerRef.current?.offsetHeight || 52;
       const viewportHeight = window.innerHeight;
       const viewportWidth = window.innerWidth;
       
       const gap = 16;
       const cardHeight = 120;
       const cardWidth = 120;
-      const mainPaddingY = 24;
+      const topPadding = 12; // py-3 top
       
-      const availableHeight = viewportHeight - headerHeight - footerHeight - mainPaddingY;
-      // For N rows: total = N * cardHeight + (N-1) * gap = N * (cardHeight + gap) - gap
-      // So: N = floor((availableHeight + gap) / (cardHeight + gap))
+      // Available height = viewport - header - footer - top padding
+      const availableHeight = viewportHeight - headerHeight - footerHeight - topPadding;
       const rows = Math.floor((availableHeight + gap) / (cardHeight + gap));
       
       const horizontalPadding = 32;
@@ -69,7 +68,7 @@ const OrderDisplay = () => {
       setCardsPerPage(total);
     };
 
-    const timer = setTimeout(calculateCardsPerPage, 50);
+    const timer = setTimeout(calculateCardsPerPage, 100);
     calculateCardsPerPage();
     window.addEventListener('resize', calculateCardsPerPage);
     return () => {
@@ -316,7 +315,7 @@ const OrderDisplay = () => {
       </header>
 
       {/* Main content */}
-      <main ref={mainRef} className="relative z-10 px-4 py-3">
+      <main ref={mainRef} className="relative z-10 px-4 pt-3">
         {orders.length === 0 ? (
           <div className="flex min-h-[60vh] items-center justify-center">
             <div className="text-center">
