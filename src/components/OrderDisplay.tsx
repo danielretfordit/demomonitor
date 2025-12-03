@@ -115,7 +115,7 @@ const OrderDisplay = () => {
 
       setOrders((prev) => {
         const updated = [newOrder, ...prev];
-        return updated.slice(0, 50); // Keep max 50 orders
+        return updated.slice(0, 250); // Keep max 250 orders
       });
     }, 8000);
 
