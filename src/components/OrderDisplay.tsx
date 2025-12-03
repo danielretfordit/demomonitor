@@ -157,7 +157,7 @@ const OrderDisplay = () => {
           <div className="flex items-center space-x-6">
             <img src={armtekLogo} alt="Armtek" className="h-8 w-auto" />
             <div className="h-8 w-px bg-border" />
-            <h1 className="text-2xl font-bold text-foreground">Статус самовывоза</h1>
+            <h1 className="text-3xl font-bold text-foreground tracking-wide">Статус самовывоза</h1>
           </div>
           
           <div className="flex items-center space-x-8">
@@ -311,15 +311,14 @@ const OrderDisplay = () => {
           </div>
         ) : (
           <div className="flex justify-center w-full">
-            <div className="flex flex-wrap justify-start gap-4" style={{ maxWidth: 'calc(100vw - 32px)' }}>
+            <div key={currentPage} className="flex flex-wrap justify-start gap-4 page-fade-in" style={{ maxWidth: 'calc(100vw - 32px)' }}>
               {filteredOrders
                 .slice(currentPage * cardsPerPage, (currentPage + 1) * cardsPerPage)
-                .map((order, index) => (
+                .map((order) => (
                   <OrderCard
                     key={order.id}
                     orderNumber={order.orderNumber}
                     status={order.status}
-                    delay={index * 10}
                   />
                 ))}
             </div>
