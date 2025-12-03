@@ -91,7 +91,7 @@ const OrderCard = ({ orderNumber, status, delay = 0 }: OrderCardProps) => {
       <PopoverTrigger asChild>
         <button
           className={cn(
-            "relative overflow-hidden rounded-xl p-4 transition-all duration-500 border-2 shadow-lg hover:shadow-xl cursor-pointer",
+            "relative overflow-hidden rounded-xl px-2 pt-2 pb-3 transition-all duration-500 border-2 shadow-lg hover:shadow-xl cursor-pointer",
             config.bgColor,
             config.borderColor,
             isVisible ? "slide-up opacity-100" : "opacity-0"
@@ -100,19 +100,17 @@ const OrderCard = ({ orderNumber, status, delay = 0 }: OrderCardProps) => {
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2)',
             minWidth: '120px',
             width: '120px',
-            height: '80px',
+            height: '90px',
           }}
         >
           {/* Content */}
-          <div className="relative z-10 flex flex-col items-center justify-center">
-            <div className="text-center">
-              <p className={cn("text-xs font-medium uppercase tracking-wider mb-1", config.textColor)}>
-                {config.statusLabel}
-              </p>
-              <p className={cn("mt-1 text-4xl font-bold tracking-wide", config.numberColor)}>
-                {orderNumber}
-              </p>
-            </div>
+          <div className="relative z-10 flex flex-col items-center justify-center h-full pb-1">
+            <p className={cn("text-[10px] font-semibold uppercase tracking-wide", config.textColor)}>
+              {config.statusLabel}
+            </p>
+            <p className={cn("text-3xl font-bold leading-none", config.numberColor)}>
+              {orderNumber}
+            </p>
           </div>
 
           {/* Bottom accent */}

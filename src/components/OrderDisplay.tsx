@@ -47,7 +47,7 @@ const OrderDisplay = () => {
   useEffect(() => {
     const calculateCardsPerPage = () => {
       const gap = 16; // gap-4
-      const cardHeight = 80;
+      const cardHeight = 90;
       const cardWidth = 120;
       const headerHeight = 52; // Fixed header height
       const footerHeight = 48; // Fixed footer height
