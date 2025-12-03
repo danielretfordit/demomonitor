@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import {
   Popover,
@@ -9,7 +8,6 @@ import {
 interface OrderCardProps {
   orderNumber: string;
   status: 'ready' | 'problem' | 'collecting' | 'cashier' | 'new';
-  delay?: number;
 }
 
 const statusConfig = {
@@ -60,16 +58,8 @@ const statusConfig = {
   },
 };
 
-const OrderCard = ({ orderNumber, status, delay = 0 }: OrderCardProps) => {
-  const [isVisible, setIsVisible] = useState(false);
+const OrderCard = ({ orderNumber, status }: OrderCardProps) => {
   const config = statusConfig[status];
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, delay);
-    return () => clearTimeout(timer);
-  }, [delay]);
 
   // Мокированные данные для попапа
   const orderDetails = {
@@ -91,10 +81,9 @@ const OrderCard = ({ orderNumber, status, delay = 0 }: OrderCardProps) => {
       <PopoverTrigger asChild>
         <button
           className={cn(
-            "relative overflow-hidden rounded-xl px-2 pt-2 pb-3 transition-all duration-500 border-2 shadow-lg hover:shadow-xl cursor-pointer",
+            "relative overflow-hidden rounded-xl px-2 pt-2 pb-3 transition-colors duration-200 border-2 shadow-lg hover:shadow-xl cursor-pointer",
             config.bgColor,
-            config.borderColor,
-            isVisible ? "slide-up opacity-100" : "opacity-0"
+            config.borderColor
           )}
           style={{
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2)',
@@ -104,11 +93,11 @@ const OrderCard = ({ orderNumber, status, delay = 0 }: OrderCardProps) => {
           }}
         >
           {/* Content */}
-          <div className="relative z-10 flex flex-col items-center justify-center h-full gap-0.5">
+          <div className="relative z-10 flex flex-col items-center justify-center h-full gap-1.5">
             <p className={cn("text-xs font-semibold uppercase tracking-wide", config.textColor)}>
               {config.statusLabel}
             </p>
-            <p className={cn("text-4xl font-bold leading-none -mt-0.5", config.numberColor)}>
+            <p className={cn("text-4xl font-bold leading-none", config.numberColor)}>
               {orderNumber}
             </p>
           </div>
