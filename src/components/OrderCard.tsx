@@ -8,7 +8,7 @@ import {
 
 interface OrderCardProps {
   orderNumber: string;
-  status: 'ready' | 'problem' | 'collecting' | 'cashier';
+  status: 'ready' | 'problem' | 'collecting' | 'cashier' | 'new';
   delay?: number;
 }
 
@@ -48,6 +48,15 @@ const statusConfig = {
     numberColor: 'text-white',
     label: 'Направлен на кассу',
     statusLabel: 'Касса',
+  },
+  new: {
+    bgColor: 'bg-gray-600/50',
+    borderColor: 'border-gray-400',
+    accentColor: 'bg-gray-400',
+    textColor: 'text-white',
+    numberColor: 'text-white',
+    label: 'Новый заказ',
+    statusLabel: 'Новый',
   },
 };
 
