@@ -33,38 +33,39 @@ const OrderDisplay = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [selectedStore, setSelectedStore] = useState("Магазин №1");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [maxCards, setMaxCards] = useState(250);
+  const [cardsPerPage, setCardsPerPage] = useState(100);
+  const [currentPage, setCurrentPage] = useState(0);
   const [selectedStatuses, setSelectedStatuses] = useState<('ready' | 'problem' | 'collecting' | 'cashier' | 'new')[]>([
     'ready', 'problem', 'collecting', 'cashier', 'new'
   ]);
 
-  // Calculate max cards based on viewport
+  // Calculate cards per page based on viewport
   useEffect(() => {
-    const calculateMaxCards = () => {
+    const calculateCardsPerPage = () => {
       const viewportHeight = window.innerHeight;
-      const headerHeight = 60;
-      const footerHeight = 70;
-      const paddingTop = 24;
-      const paddingBottom = 24;
-      const gap = 16;
+      const headerHeight = 56; // header actual height
+      const footerHeight = 64; // footer actual height
+      const mainPadding = 48; // py-6 = 24px top + 24px bottom
+      const gap = 16; // gap-4
       const cardHeight = 120;
       
-      const availableHeight = viewportHeight - headerHeight - footerHeight - paddingTop - paddingBottom;
+      const availableHeight = viewportHeight - headerHeight - footerHeight - mainPadding;
       const rows = Math.floor((availableHeight + gap) / (cardHeight + gap));
       
       const viewportWidth = window.innerWidth;
-      const horizontalPadding = 32;
+      const horizontalPadding = 32; // px-4 = 16px each side
       const cardWidth = 120;
       
       const availableWidth = viewportWidth - horizontalPadding;
       const columns = Math.floor((availableWidth + gap) / (cardWidth + gap));
       
-      setMaxCards(Math.max(rows * columns, 20));
+      const total = Math.max(rows * columns, 1);
+      setCardsPerPage(total);
     };
 
-    calculateMaxCards();
-    window.addEventListener('resize', calculateMaxCards);
-    return () => window.removeEventListener('resize', calculateMaxCards);
+    calculateCardsPerPage();
+    window.addEventListener('resize', calculateCardsPerPage);
+    return () => window.removeEventListener('resize', calculateCardsPerPage);
   }, []);
 
   const stores = [
@@ -121,6 +122,28 @@ const OrderDisplay = () => {
 
     return () => clearInterval(interval);
   }, []);
+
+  // Auto-pagination
+  const filteredOrders = getSortedOrders(orders);
+  const totalPages = Math.ceil(filteredOrders.length / cardsPerPage);
+  
+  useEffect(() => {
+    if (totalPages <= 1) {
+      setCurrentPage(0);
+      return;
+    }
+    
+    const interval = setInterval(() => {
+      setCurrentPage((prev) => (prev + 1) % totalPages);
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, [totalPages]);
+
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [selectedStatuses]);
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-background">
@@ -295,8 +318,8 @@ const OrderDisplay = () => {
           </div>
         ) : (
           <div className="grid gap-4 justify-center" style={{ gridTemplateColumns: 'repeat(auto-fit, 120px)' }}>
-            {getSortedOrders(orders)
-              .slice(0, maxCards)
+            {filteredOrders
+              .slice(currentPage * cardsPerPage, (currentPage + 1) * cardsPerPage)
               .map((order, index) => (
                 <OrderCard
                   key={order.id}
@@ -339,6 +362,19 @@ const OrderDisplay = () => {
             </div>
             
             <div className="flex items-center space-x-6">
+              {totalPages > 1 && (
+                <div className="flex items-center space-x-2">
+                  {Array.from({ length: totalPages }).map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setCurrentPage(i)}
+                      className={`h-2.5 w-2.5 rounded-full transition-colors ${
+                        i === currentPage ? 'bg-primary' : 'bg-muted-foreground/30'
+                      }`}
+                    />
+                  ))}
+                </div>
+              )}
               <div className="text-sm text-muted-foreground">
                 {currentTime.toLocaleDateString("ru-RU", {
                   day: "2-digit",
