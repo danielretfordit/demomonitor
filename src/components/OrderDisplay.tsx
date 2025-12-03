@@ -310,7 +310,7 @@ const OrderDisplay = () => {
             </div>
           </div>
         ) : (
-          <div className="grid gap-4 justify-center" style={{ gridTemplateColumns: 'repeat(auto-fit, 120px)' }}>
+          <div className="flex flex-wrap justify-center gap-4">
             {filteredOrders
               .slice(currentPage * cardsPerPage, (currentPage + 1) * cardsPerPage)
               .map((order, index) => (
