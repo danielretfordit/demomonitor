@@ -50,9 +50,9 @@ const statusConfig = {
     statusLabel: 'Касса',
   },
   new: {
-    bgColor: 'bg-gray-600/50',
-    borderColor: 'border-gray-400',
-    accentColor: 'bg-gray-400',
+    bgColor: 'bg-gray-700/50',
+    borderColor: 'border-white',
+    accentColor: 'bg-white',
     textColor: 'text-white',
     numberColor: 'text-white',
     label: 'Новый заказ',
